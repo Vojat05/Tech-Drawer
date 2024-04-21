@@ -1,6 +1,6 @@
 package com.vojat.DataStructures;
 
-public class Line {
+public class Line extends Geometry {
     private Point start;
     private Point end;
     private boolean isSelected = false;

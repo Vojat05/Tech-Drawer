@@ -1,6 +1,6 @@
 package com.vojat.DataStructures;
 
-public class Circle {
+public class Circle extends Geometry{
     private short startAngle;
     private short endAngle;
     private Point center;

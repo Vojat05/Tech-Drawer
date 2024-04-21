@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import com.vojat.DataStructures.Circle;
 import com.vojat.DataStructures.Line;
 import com.vojat.DataStructures.Point;
 import com.vojat.Panels.BluePrint;
@@ -51,6 +52,13 @@ public class MouseListener implements MouseInputListener {
                 return;
     
             } else if (me.getX() >= btnp.getWidth() - 40 && me.getX() <= btnp.getWidth() - 10 && me.getY() >= 10 && me.getY() <= 70) System.exit(0);
+            else if (me.getX() >= 308 && me.getX() <= 346 && me.getY() >= 36 && me.getY() <= 74) {
+
+                ButtonPanel.setSelected((byte) 2);
+                btnp.repaint();
+                return;
+
+            }
 
         }
 
@@ -60,8 +68,24 @@ public class MouseListener implements MouseInputListener {
         else return;
         switch (me.getButton()) {
             case 1:
-                // The PTP line is selected
-                if (ButtonPanel.getSelected() == 1) {
+                if (ButtonPanel.getSelected() == 0) {
+                    // Selecting tool is selected
+
+                    for (int i = 0; i < bp.getLinesSize(); i++) {
+                        
+                        Line line = bp.getLine(i);
+                        if (line.isOnLine(new Point(me.getX(), me.getY()))) line.select();
+
+                    }
+
+                    for (int i = 0; i < bp.getCirclesSize(); i++) {
+
+                        Circle circle = bp.getCircle(i);
+                        if (circle.isOnCircle(new Point(me.getX(), me.getY()))) circle.isSelected();
+                        
+                    }
+                } else if (ButtonPanel.getSelected() == 1) {
+                    // The PTP line is selected
                     
                     if (points.size() == 1) {
 
@@ -70,8 +94,17 @@ public class MouseListener implements MouseInputListener {
                         points.clear();
                         points.add(end);
 
-                    }
-                    else points.add(new Point(me.getX(), me.getY()));
+                    }else points.add(new Point(me.getX(), me.getY()));
+                } else if (ButtonPanel.getSelected() == 2) {
+
+                    if (points.size() == 1) {
+                        // R circle is selected
+
+                        Point end = new Point(me.getX(), me.getY());
+                        bp.addCircle(new Circle(points.get(0), points.get(0).distance(end), (short) 0, (short) 360));
+                        points.clear();
+
+                    } else points.add(new Point(me.getX(), me.getY()));
                 }
                 break;
             

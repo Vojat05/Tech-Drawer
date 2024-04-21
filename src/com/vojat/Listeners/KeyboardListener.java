@@ -3,6 +3,8 @@ package com.vojat.Listeners;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.vojat.DataStructures.Circle;
+import com.vojat.DataStructures.Line;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
 
@@ -45,6 +47,28 @@ public class KeyboardListener implements KeyListener {
         if (ctrl) { return; }
         if (shift) { return; }
         if (alt) { return; }
+
+        switch (key) {
+            case KeyEvent.VK_DELETE:
+                
+                // Removing lines
+                for (int i = 0; i < blueprint.getLinesSize(); i++) {
+                    
+                    Line line = blueprint.getLine(i);
+                    if (line.isSelected()) blueprint.removeLine(i);
+
+                }
+
+                // Removing circles
+                for (int i = 0; i < blueprint.getCirclesSize(); i++) {
+
+                    Circle circle = blueprint.getCircle(i);
+                    if (circle.isSelected()) blueprint.removeCircle(i);
+
+                }
+                blueprint.repaint();
+                break;
+        }
     }
 
     @Override
@@ -67,7 +91,7 @@ public class KeyboardListener implements KeyListener {
             case KeyEvent.VK_ESCAPE:
                 if (ButtonPanel.getSelected() == 1) {
 
-                    // Check if there is a line start point placed
+                    // Check if there is a start point placed
                     if (blueprint.mouseListener.isDrawing()) {
 
                         blueprint.mouseListener.stopDrawing();

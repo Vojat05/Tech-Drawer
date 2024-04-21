@@ -66,6 +66,10 @@ public class BluePrint extends JPanel {
 
     public Line getLine(int i) { return lines.get(i); }
 
+    public Line removeLine(int i) { return lines.remove(i); }
+
+    public int getLinesSize() { return lines.size(); }
+
     public Circle addCircle(Circle circle) {
 
         circles.add(circle);
@@ -74,6 +78,10 @@ public class BluePrint extends JPanel {
     }
 
     public Circle getCircle(int i) { return circles.get(i); }
+
+    public Circle removeCircle(int i) { return circles.remove(i); }
+
+    public int getCirclesSize() { return circles.size(); }
 
     public void drawCursor(Graphics2D g2d) {
 
@@ -131,10 +139,19 @@ public class BluePrint extends JPanel {
         // Draw the lines
         g2d.setPaint(Color.WHITE);
         g2d.setStroke(new BasicStroke(3));
-
         for (int i = 0; i < lines.size(); i++) {
 
             Line line = lines.get(i);
+            if (line.isSelected()) {
+
+                g2d.setStroke(new BasicStroke(5));
+                g2d.setPaint(new Color(255, 255, 255, 100));
+                g2d.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+
+            }
+
+            g2d.setPaint(line.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
+            g2d.setStroke(new BasicStroke(3));
             g2d.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
         
         }
@@ -143,11 +160,20 @@ public class BluePrint extends JPanel {
         for (int i = 0; i < circles.size(); i++) {
 
             Circle circle = circles.get(i);
-            g2d.drawArc(circle.getCenter().getX(), circle.getCenter().getY(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+            if (circle.isSelected()) {
+
+                g2d.setStroke(new BasicStroke(5));
+                g2d.setPaint(new Color(255, 255, 255, 100));
+                g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+            }
+
+            g2d.setPaint(circle.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
         }
 
         // Draw the line from the last line point to the current mouse position if the line brush is selected
-        if (ButtonPanel.getSelected() != 0) {
+        if (ButtonPanel.getSelected() == 1) {
 
             // If 0 lines have been drawn
             if (mouseListener.getLastPoint() == null) {
@@ -159,6 +185,17 @@ public class BluePrint extends JPanel {
             Point point = mouseListener.getLastPoint();
             g2d.drawLine(point.getX(), point.getY(), mousePos[0], mousePos[1]);
             
+        } else if (ButtonPanel.getSelected() == 2) {
+
+            if (mouseListener.getLastPoint() == null) {
+
+                drawCursor(g2d);
+                return;
+
+            }
+            Point point = mouseListener.getLastPoint();
+            int radius = point.distance(new Point(mousePos[0], mousePos[1]));
+            g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
         }
         drawCursor(g2d);
     }

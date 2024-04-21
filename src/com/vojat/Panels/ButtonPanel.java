@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import com.vojat.Main;
+import com.vojat.DataStructures.Picture;
 import com.vojat.Listeners.MouseListener;
 
 public class ButtonPanel extends JPanel {
@@ -50,20 +51,23 @@ public class ButtonPanel extends JPanel {
         g2d.drawArc(0, 0, 30, 30, 180, -90);
         g2d.drawArc(this.getWidth() - 31, 0, 30, 30, 0, 90);
         g2d.drawLine(280, 10, 280, this.getHeight());
+        g2d.drawLine(560, 10, 560, this.getHeight());
 
         // Drawing the section labels
         g2d.setFont(getFont().deriveFont(20f));
-        g2d.drawString("Lines", 120, 20);
+        g2d.drawString("Lines", 110, 20);
+        g2d.drawString("Circles", 390, 20);
 
         //Drawing the buttons images
         for (int i = 1; i < Main.textures.size(); i++) {
 
+            Picture pic = Main.textures.get(i);
             if (i == selected) {
                 g2d.setStroke(new BasicStroke(1));
                 g2d.setPaint(new Color(255, 255, 255, 200));
-                g2d.drawRoundRect(25 + (i - 1) * 30, 35, 42, 42, 10, 10);
+                g2d.drawRoundRect(pic.getX() - 5, pic.getY() - 5, pic.getWidth() + 10, pic.getWidth() + 10, 10, 10);
             }
-            g2d.drawImage(Main.textures.get(i), 30, 40, 34, 34, null);
+            g2d.drawImage(pic.getPicture(), pic.getX(), pic.getY(), pic.getWidth(), pic.getHeight(), null);
         }
 
         // Draw the exit button

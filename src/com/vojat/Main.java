@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.vojat.DataStructures.Picture;
 import com.vojat.Listeners.KeyboardListener;
 import com.vojat.Listeners.MouseListener;
 import com.vojat.Panels.BluePrint;
@@ -19,7 +20,7 @@ import com.vojat.Panels.ButtonPanel;
 
 public class Main {
 
-    public static HashMap<Integer, BufferedImage> textures = new HashMap<>();
+    public static HashMap<Integer, Picture> textures = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -47,7 +48,8 @@ public class Main {
 
             // 100x100 resized to 34x34
             textures.put(null, null);
-            textures.put(1, ImageIO.read(new File("../../Resources/Pictures/PTPline.png")));
+            textures.put(1, new Picture(ImageIO.read(new File("../../Resources/Pictures/PTPline.png")), 30, 40, 34, 34));
+            textures.put(2, new Picture(ImageIO.read(new File("../../Resources/Pictures/Rcircle.png")), 308, 36, 38, 38));
 
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
     }
