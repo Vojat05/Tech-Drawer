@@ -20,7 +20,7 @@ public class Line extends Geometry {
 
     public Point getEnd() { return this.end; }
 
-    public boolean select() { return this.isSelected = true; }
+    public boolean select(boolean val) { return this.isSelected = val; }
 
     public boolean isSelected() { return this.isSelected; }
 

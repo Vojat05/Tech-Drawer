@@ -167,7 +167,7 @@ public class BluePrint extends JPanel {
                 g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
             }
 
-            g2d.setPaint(circle.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
+            g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
             g2d.setStroke(new BasicStroke(3));
             g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
         }

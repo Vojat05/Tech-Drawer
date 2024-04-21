@@ -32,7 +32,7 @@ public class Circle extends Geometry{
 
     public int getRadius() { return this.radius; }
 
-    public boolean select() { return this.selected = true; }
+    public boolean select(boolean val) { return this.selected = val; }
 
     public boolean isSelected() { return this.selected; }
 

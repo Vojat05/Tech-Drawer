@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
 import com.vojat.DataStructures.Line;
 import com.vojat.DataStructures.Point;
@@ -34,6 +35,21 @@ public class MouseListener implements MouseInputListener {
 
     }
 
+    private int snapX(int x) {
+
+        int sum = 0;
+        while (x > 10) { x -= 10; sum += 10; }
+        return sum + (x > 5 ? 10 : 0);
+
+    }
+
+    private int snapY(int y) {
+
+        int sum = 0;
+        while (y > 10) { y -= 10; sum += 10; }
+        return sum + (y > 5 ? 10 : 0);
+    }
+
     @Override
     public void mouseClicked(MouseEvent me) {}
 
@@ -59,7 +75,6 @@ public class MouseListener implements MouseInputListener {
                 return;
 
             }
-
         }
 
         // Here the parent can only be a BluePrint
@@ -74,37 +89,37 @@ public class MouseListener implements MouseInputListener {
                     for (int i = 0; i < bp.getLinesSize(); i++) {
                         
                         Line line = bp.getLine(i);
-                        if (line.isOnLine(new Point(me.getX(), me.getY()))) line.select();
+                        if (line.isOnLine(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) line.select(true);
 
                     }
 
                     for (int i = 0; i < bp.getCirclesSize(); i++) {
 
                         Circle circle = bp.getCircle(i);
-                        if (circle.isOnCircle(new Point(me.getX(), me.getY()))) circle.isSelected();
-                        
+                        if (circle.isOnCircle(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) circle.isSelected();
+
                     }
                 } else if (ButtonPanel.getSelected() == 1) {
                     // The PTP line is selected
                     
                     if (points.size() == 1) {
 
-                        Point end = new Point(me.getX(), me.getY());
+                        Point end = new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY());
                         bp.addLine(new Line(points.get(0), end));
                         points.clear();
                         points.add(end);
 
-                    }else points.add(new Point(me.getX(), me.getY()));
+                    }else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
                 } else if (ButtonPanel.getSelected() == 2) {
+                    // R circle is selected
 
                     if (points.size() == 1) {
-                        // R circle is selected
 
-                        Point end = new Point(me.getX(), me.getY());
+                        Point end = new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY());
                         bp.addCircle(new Circle(points.get(0), points.get(0).distance(end), (short) 0, (short) 360));
                         points.clear();
 
-                    } else points.add(new Point(me.getX(), me.getY()));
+                    } else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
                 }
                 break;
             
@@ -134,7 +149,8 @@ public class MouseListener implements MouseInputListener {
         if (parent instanceof BluePrint) {
 
             BluePrint bp = (BluePrint) parent;
-            bp.setMousePos(me.getX(), me.getY());
+            if (Main.snaptogrid) bp.setMousePos(snapX(me.getX()), snapY(me.getY()));
+            else bp.setMousePos(me.getX(), me.getY());
             bp.repaint();
             return;
 

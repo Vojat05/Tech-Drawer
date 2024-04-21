@@ -21,6 +21,7 @@ import com.vojat.Panels.ButtonPanel;
 public class Main {
 
     public static HashMap<Integer, Picture> textures = new HashMap<>();
+    public static boolean snaptogrid = true;
 
     public static void main(String[] args) {
 
