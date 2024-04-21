@@ -1,8 +1,11 @@
 package com.vojat;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,7 +19,7 @@ import com.vojat.Panels.ButtonPanel;
 
 public class Main {
 
-    public static HashMap<String, BufferedImage> textures = new HashMap<>();
+    public static HashMap<Integer, BufferedImage> textures = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -24,21 +27,27 @@ public class Main {
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 70;
 
+        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+        // Create a new blank cursor.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor((Image) cursorImg, new Point(0, 0), "blank cursor");
+
         // Create the main frame and add the blueprint, button panel
         Frame frame = new Frame();
         ButtonPanel buttons = new ButtonPanel(10, 10, width - 20, 80, new Color(50, 50, 55));
-        BluePrint bleuprint = new BluePrint(10, 100, width - 20, height - 110, new Color(0, 91, 140));
-        bleuprint.setListeners(new KeyboardListener(bleuprint), new MouseListener(bleuprint));
+        BluePrint blueprint = new BluePrint(10, 100, width - 20, height - 110, new Color(0, 91, 140));
+        blueprint.setListeners(new KeyboardListener(blueprint, buttons), new MouseListener(blueprint));
+        blueprint.setCursor(blankCursor);
         buttons.setListeners(new MouseListener(buttons));
         frame.add(buttons);
-        frame.add(bleuprint);
+        frame.add(blueprint);
 
         // Fill the textures hashmap
         try {
 
             // 100x100 resized to 34x34
             textures.put(null, null);
-            textures.put("PTPline", ImageIO.read(new File("../../Resources/Pictures/PTPline.png")));
+            textures.put(1, ImageIO.read(new File("../../Resources/Pictures/PTPline.png")));
 
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
     }

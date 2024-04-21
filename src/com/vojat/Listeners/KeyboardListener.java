@@ -4,16 +4,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.vojat.Panels.BluePrint;
+import com.vojat.Panels.ButtonPanel;
 
 public class KeyboardListener implements KeyListener {
 
-    private BluePrint bluePrint;
+    private BluePrint blueprint;
+    private ButtonPanel bp;
     private boolean ctrl = false, shift = false, alt = false;
 
-    public KeyboardListener(BluePrint bp) {
+    public KeyboardListener(BluePrint bluePrint, ButtonPanel bp) {
 
-        this.bluePrint = bp;
-    
+        this.blueprint = bluePrint;
+        this.bp = bp;
+
     }
 
     @Override
@@ -39,9 +42,9 @@ public class KeyboardListener implements KeyListener {
         }
 
         // Modified key actions based on modifier
-        if (ctrl) {}
-        if (shift) {}
-        if (alt) {}
+        if (ctrl) { return; }
+        if (shift) { return; }
+        if (alt) { return; }
     }
 
     @Override
@@ -59,6 +62,21 @@ public class KeyboardListener implements KeyListener {
 
             case KeyEvent.VK_ALT:
                 alt = false;
+                break;
+
+            case KeyEvent.VK_ESCAPE:
+                if (ButtonPanel.getSelected() == 1) {
+
+                    // Check if there is a line start point placed
+                    if (blueprint.mouseListener.isDrawing()) {
+
+                        blueprint.mouseListener.stopDrawing();
+                        break;
+
+                    } else ButtonPanel.setSelected((byte) 0);
+                }
+
+                bp.repaint();
                 break;
 
             default: break;

@@ -13,7 +13,7 @@ import com.vojat.Listeners.MouseListener;
 
 public class ButtonPanel extends JPanel {
 
-    private byte selected = -1;
+    private static byte selected = 0;
     
     public ButtonPanel(int x, int y, int width, int height, Color color) {
         setSize(width, height);
@@ -21,6 +21,7 @@ public class ButtonPanel extends JPanel {
         setBackground(color);
     }
 
+    // Sets the listeners for mouse & | keyboard
     public void setListeners(MouseListener ml) {
 
         addMouseListener(ml);
@@ -28,9 +29,9 @@ public class ButtonPanel extends JPanel {
     }
 
     // Sets the selected option to a value
-    public byte setSelected(byte val) { return this.selected = val; }
+    public static byte setSelected(byte val) { return selected = val; }
 
-    public byte getSelected() { return this.selected; }
+    public static byte getSelected() { return selected; }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -55,14 +56,22 @@ public class ButtonPanel extends JPanel {
         g2d.drawString("Lines", 120, 20);
 
         //Drawing the buttons images
-        for (int i = 0; i < Main.textures.size(); i++) {
+        for (int i = 1; i < Main.textures.size(); i++) {
 
             if (i == selected) {
                 g2d.setStroke(new BasicStroke(1));
                 g2d.setPaint(new Color(255, 255, 255, 200));
-                g2d.drawRoundRect(25 + i * 30, 35, 42, 42, 10, 10);
+                g2d.drawRoundRect(25 + (i - 1) * 30, 35, 42, 42, 10, 10);
             }
-            g2d.drawImage(Main.textures.get("PTPline"), 30, 40, 34, 34, null);
+            g2d.drawImage(Main.textures.get(i), 30, 40, 34, 34, null);
         }
+
+        // Draw the exit button
+        g2d.setPaint(new Color(255, 0, 0));
+        g2d.fillRoundRect(this.getWidth() - 40, 10, 30, 60, 10, 10);
+        g2d.setPaint(Color.WHITE);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawLine(this.getWidth() - 35, 25, this.getWidth() - 15, 50);
+        g2d.drawLine(this.getWidth() - 35, 50, this.getWidth() - 15, 25);
     }
 }
