@@ -96,7 +96,7 @@ public class MouseListener implements MouseInputListener {
                     for (int i = 0; i < bp.getCirclesSize(); i++) {
 
                         Circle circle = bp.getCircle(i);
-                        if (circle.isOnCircle(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) circle.isSelected();
+                        if (circle.isOnCircle(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) circle.select(true);
 
                     }
                 } else if (ButtonPanel.getSelected() == 1) {

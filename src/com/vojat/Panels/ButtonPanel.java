@@ -72,9 +72,9 @@ public class ButtonPanel extends JPanel {
 
         // Draw the exit button
         g2d.setPaint(new Color(255, 0, 0));
-        g2d.fillRoundRect(this.getWidth() - 40, 10, 30, 60, 10, 10);
-        g2d.setPaint(Color.WHITE);
         g2d.setStroke(new BasicStroke(2));
+        g2d.drawRoundRect(this.getWidth() - 40, 10, 30, 60, 10, 10);
+        g2d.setPaint(Color.WHITE);
         g2d.drawLine(this.getWidth() - 35, 25, this.getWidth() - 15, 50);
         g2d.drawLine(this.getWidth() - 35, 50, this.getWidth() - 15, 25);
     }

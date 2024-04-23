@@ -54,4 +54,11 @@ public class Main {
 
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
     }
+
+    public static int pow(int x, int exponent) {
+        
+        for (int i = 0; i < exponent; i++) x *= x;
+        return x;
+        
+    }
 }

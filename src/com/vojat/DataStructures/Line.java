@@ -29,6 +29,14 @@ public class Line extends Geometry {
         int x = point.getX();
         int y = point.getY();
 
+        // If it's outside of the line either up, down, left or right
+        int leftMost = start.getX() < end.getX() ? start.getX() : end.getX();
+        int rightMost = leftMost == start.getX() ? end.getX() : start.getX();
+        int upper = start.getY() < end.getY() ? start.getY() : end.getY();
+        int lower = upper == start.getY() ? end.getY() : start.getY();
+
+        if (x < leftMost || x > rightMost || y < upper || y > lower) return false;
+
         // The formula to calculate if the point is on the line
         if (end.getY() * x - start.getY() * x + start.getX() * y - end.getX() * y - end.getY() * start.getX() + start.getY() * end.getX() == 0) return true;
         else return false;

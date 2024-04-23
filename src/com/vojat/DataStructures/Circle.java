@@ -1,5 +1,7 @@
 package com.vojat.DataStructures;
 
+import com.vojat.Main;
+
 public class Circle extends Geometry{
     private short startAngle;
     private short endAngle;
@@ -41,7 +43,7 @@ public class Circle extends Geometry{
         int x = point.getX();
         int y = point.getY();
 
-        if ((x - center.getX()) * (x - center.getX()) + (y - center.getY()) * (y - center.getY()) == radius * radius) return true;
+        if (Main.pow((x - center.getX()), 2) + Main.pow((y - center.getY()), 2) == Main.pow(radius, 2)) return true;
         else return false;
     }
 }
