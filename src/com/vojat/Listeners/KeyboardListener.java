@@ -74,6 +74,7 @@ public class KeyboardListener implements KeyListener {
                 
                 for (int i = 0; i < blueprint.getLinesSize(); i++) blueprint.getLine(i).select(false);
                 for (int i = 0; i < blueprint.getCirclesSize(); i++) blueprint.getCircle(i).select(false);
+                blueprint.repaint();
                 break;
 
             case KeyEvent.VK_S:

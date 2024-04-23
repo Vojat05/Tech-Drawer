@@ -55,10 +55,14 @@ public class Main {
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
     }
 
-    public static int pow(int x, int exponent) {
+    public static float[] quadratic(float a, float b, float c) {
         
-        for (int i = 0; i < exponent; i++) x *= x;
-        return x;
+        float[] solution = new float[2];
+        float d = (float) Math.pow(Math.pow(b, 2) - 4 * a * c, .5);
         
+        solution[0] = (-b + d) / (2 * a);
+        solution[1] = (-b - d) / (2 * a);
+
+        return solution;
     }
 }

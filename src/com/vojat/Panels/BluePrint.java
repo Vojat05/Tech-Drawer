@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import com.vojat.DataStructures.Point;
+import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
 import com.vojat.DataStructures.Line;
 import com.vojat.Listeners.KeyboardListener;
@@ -173,7 +174,27 @@ public class BluePrint extends JPanel {
         }
 
         // Draw the line from the last line point to the current mouse position if the line brush is selected
-        if (ButtonPanel.getSelected() == 1) {
+        if (ButtonPanel.getSelected() == 0 && mouseListener.pointsSize() == 1) {
+
+            int mouseX = Main.snaptogrid ? MouseListener.snapX(mouseListener.getLastPoint().getX()) : mouseListener.getLastPoint().getX();
+            int mouseY = Main.snaptogrid ? MouseListener.snapY(mouseListener.getLastPoint().getY()) : mouseListener.getLastPoint().getY();
+            g2d.setStroke(new BasicStroke(1));
+            
+            if (mouseListener.selectionIsContain) {
+
+                // Blue
+                g2d.setPaint(new Color(69, 143, 255, 100));
+                g2d.fillRect(mouseX < mousePos[0] ? mouseX : mousePos[0], mouseY, (mouseX - mousePos[0]) * (mouseX < mousePos[0] ? -1 : 1), (mouseY - mousePos[1]) * -1);
+                
+            } else {
+                
+                // Green
+                g2d.setPaint(new Color(97, 255, 69, 100));
+                g2d.fillRect(mouseX < mousePos[0] ? mouseX : mousePos[0], mousePos[1], (mouseX - mousePos[0]) * (mouseX < mousePos[0] ? -1 : 1), (mouseY - mousePos[1]));
+
+            }
+        }
+        else if (ButtonPanel.getSelected() == 1) {
 
             // If 0 lines have been drawn
             if (mouseListener.getLastPoint() == null) {

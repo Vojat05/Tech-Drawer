@@ -15,6 +15,7 @@ import com.vojat.Panels.ButtonPanel;
 
 public class MouseListener implements MouseInputListener {
 
+    public boolean selectionIsContain;
     private JPanel parent;
     private ArrayList<Point> points = new ArrayList<Point>();
 
@@ -35,7 +36,11 @@ public class MouseListener implements MouseInputListener {
 
     }
 
-    private int snapX(int x) {
+    public Point getPoint(int i) { return points.get(i); }
+
+    public int pointsSize() { return points.size(); }
+
+    public static int snapX(int x) {
 
         int sum = 0;
         while (x > 10) { x -= 10; sum += 10; }
@@ -43,7 +48,7 @@ public class MouseListener implements MouseInputListener {
 
     }
 
-    private int snapY(int y) {
+    public static int snapY(int y) {
 
         int sum = 0;
         while (y > 10) { y -= 10; sum += 10; }
@@ -85,6 +90,8 @@ public class MouseListener implements MouseInputListener {
             case 1:
                 if (ButtonPanel.getSelected() == 0) {
                     // Selecting tool is selected
+                    points.clear();
+                    points.add(new Point(me.getX(), me.getY()));
 
                     for (int i = 0; i < bp.getLinesSize(); i++) {
                         
@@ -140,7 +147,39 @@ public class MouseListener implements MouseInputListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {}
+    public void mouseReleased(MouseEvent me) {
+        
+        // Return if parent panel isn't BluePrint
+        if (!(parent instanceof BluePrint)) return;
+        if (ButtonPanel.getSelected() == 0) points.add(new Point(me.getX(), me.getY()));
+        else return;
+
+        // Here the points arraylist always has 2 points
+        BluePrint bp = (BluePrint) parent;
+        bp.repaint();
+        
+        // Check if some line is to be selected
+        for (int i = 0; i < bp.getLinesSize(); i++) {
+            
+            Line line = bp.getLine(i);
+            Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
+            Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
+            Point start = line.getStart();
+            Point end = line.getEnd();
+            
+            if (selectionIsContain) {
+
+                if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
+                else line.select(false);
+            
+            } else {
+
+                if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
+                else line.select(true);
+            }
+        }
+        points.clear();
+    }
 
     @Override
     public void mouseMoved(MouseEvent me) {
@@ -151,6 +190,14 @@ public class MouseListener implements MouseInputListener {
             BluePrint bp = (BluePrint) parent;
             if (Main.snaptogrid) bp.setMousePos(snapX(me.getX()), snapY(me.getY()));
             else bp.setMousePos(me.getX(), me.getY());
+
+            // Check if the selection is pass-through or contain
+            if (ButtonPanel.getSelected() == 0 && points.size() != 0) {
+
+                if (points.get(0).getY() < me.getY()) selectionIsContain = true;
+                else selectionIsContain = false;
+            
+            }
             bp.repaint();
             return;
 
