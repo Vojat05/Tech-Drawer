@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
+import com.vojat.DataStructures.Geometry;
 import com.vojat.DataStructures.Line;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
@@ -27,58 +28,68 @@ public class KeyboardListener implements KeyListener {
 
         // The modifier keys
         int key = ke.getKeyCode();
+        System.out.println("Key pressed!");
 
         switch (key) {
             case KeyEvent.VK_CONTROL:
                 ctrl = true;
-                break;
+                return;
 
             case KeyEvent.VK_SHIFT:
                 shift = true;
-                break;
+                return;
 
             case KeyEvent.VK_ALT:
                 alt = true;
-                break;
+                return;
         
             default: break;
         }
 
-        // Modified key actions based on modifier
-        if (ctrl) { return; }
-        if (shift) { return; }
-        if (alt) { return; }
-
         switch (key) {
             case KeyEvent.VK_DELETE:
                 
-                // Removing lines
-                for (int i = 0; i < blueprint.getLinesSize(); i++) {
+                // Removing geometry
+                for (int i = 0; i < blueprint.geometrySize(); i++) {
+
+                    Geometry object = blueprint.getGeometryAt(i);
                     
-                    Line line = blueprint.getLine(i);
-                    if (line.isSelected()) blueprint.removeLine(i);
+                    // Removing lines
+                    if (object instanceof Line) {
 
-                }
+                        Line line = (Line) object;
+                        if (line.isSelected()) blueprint.removeGeometryAt(i--);
 
-                // Removing circles
-                for (int i = 0; i < blueprint.getCirclesSize(); i++) {
+                    }
 
-                    Circle circle = blueprint.getCircle(i);
-                    if (circle.isSelected()) blueprint.removeCircle(i);
+                    // Removing circles
+                    if (object instanceof Circle) {
 
+                        Circle circle = (Circle) object;
+                        if (circle.isSelected()) blueprint.removeGeometryAt(i--);
+
+                    }
                 }
                 blueprint.repaint();
                 break;
 
             case KeyEvent.VK_ESCAPE:
                 
-                for (int i = 0; i < blueprint.getLinesSize(); i++) blueprint.getLine(i).select(false);
-                for (int i = 0; i < blueprint.getCirclesSize(); i++) blueprint.getCircle(i).select(false);
+                for (int i = 0; i < blueprint.geometrySize(); i++) blueprint.getGeometryAt(i).select(false);
                 blueprint.repaint();
                 break;
 
             case KeyEvent.VK_S:
-                Main.snaptogrid = Main.snaptogrid ? false : true;
+                // Save if control + S
+                if (ctrl) {
+
+                    
+
+                } else {
+
+                    Main.snaptogrid = Main.snaptogrid ? false : true;
+
+                }
                 break;
 
             default: break;

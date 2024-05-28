@@ -8,6 +8,7 @@ import javax.swing.event.MouseInputListener;
 
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
+import com.vojat.DataStructures.Geometry;
 import com.vojat.DataStructures.Line;
 import com.vojat.DataStructures.Point;
 import com.vojat.Panels.BluePrint;
@@ -93,18 +94,25 @@ public class MouseListener implements MouseInputListener {
                     points.clear();
                     points.add(new Point(me.getX(), me.getY()));
 
-                    for (int i = 0; i < bp.getLinesSize(); i++) {
+                    for (int i = 0; i < bp.geometrySize(); i++) {
+
+                        Geometry object = bp.getGeometryAt(i);
                         
-                        Line line = bp.getLine(i);
-                        if (line.isOnLine(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) line.select(true);
+                        // Is a line
+                        if (object instanceof Line) {
+                            
+                            Line line = (Line) object;
+                            if (line.isOnLine(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) line.select(true);
 
-                    }
+                        }
 
-                    for (int i = 0; i < bp.getCirclesSize(); i++) {
+                        // Is a circle
+                        if (object instanceof Circle) {
 
-                        Circle circle = bp.getCircle(i);
-                        if (circle.isOnCircle(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) circle.select(true);
+                            Circle circle = (Circle) object;
+                            if (circle.isOnCircle(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()))) circle.select(true);
 
+                        }
                     }
                 } else if (ButtonPanel.getSelected() == 1) {
                     // The PTP line is selected
@@ -158,27 +166,33 @@ public class MouseListener implements MouseInputListener {
         BluePrint bp = (BluePrint) parent;
         bp.repaint();
         
-        // Check if some line is to be selected
-        for (int i = 0; i < bp.getLinesSize(); i++) {
-            
-            Line line = bp.getLine(i);
-            Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
-            Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
-            Point start = line.getStart();
-            Point end = line.getEnd();
-            
-            if (selectionIsContain) {
+        // Check if some geometry is to be selected
+        for (int i = 0; i < bp.geometrySize(); i++) {
 
-                if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
-                else line.select(false);
-            
-            } else {
+            Geometry object = bp.getGeometryAt(i);
 
-                if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
-                else line.select(true);
+            // Is a line
+            if (object instanceof Line) {
+
+                Line line = (Line) object;
+                Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
+                Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
+                Point start = line.getStart();
+                Point end = line.getEnd();
+                
+                if (selectionIsContain) {
+
+                    if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
+                    else line.select(false);
+                
+                } else {
+
+                    if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
+                    else line.select(true);
+                }
             }
+            points.clear();
         }
-        points.clear();
     }
 
     @Override

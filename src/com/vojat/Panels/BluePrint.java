@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import com.vojat.DataStructures.Point;
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
+import com.vojat.DataStructures.Geometry;
 import com.vojat.DataStructures.Line;
 import com.vojat.Listeners.KeyboardListener;
 import com.vojat.Listeners.MouseListener;
@@ -21,8 +22,7 @@ public class BluePrint extends JPanel {
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
     private int[] mousePos = new int[2];
-    private ArrayList<Line> lines = new ArrayList<Line>();
-    private ArrayList<Circle> circles = new ArrayList<Circle>();
+    private ArrayList<Geometry> geometry = new ArrayList<Geometry>();
 
     public BluePrint(int x, int y, int width, int height, Color color) {
         setSize(width, height);
@@ -36,15 +36,13 @@ public class BluePrint extends JPanel {
         setVisible(true);
     }
 
-    public void setListeners(KeyboardListener kbl, MouseListener ml) {
+    public void setListeners(MouseListener ml) {
 
         // Mouse and keyboard listener
-        addKeyListener(kbl);
         addMouseListener(ml);
         addMouseMotionListener(ml);
 
         this.mouseListener = ml;
-        this.keyboardListener = kbl;
         
     }
 
@@ -60,29 +58,39 @@ public class BluePrint extends JPanel {
 
     public Line addLine(Line line) {
 
-        lines.add(line);
+        geometry.add(line);
         return line;
 
     }
 
-    public Line getLine(int i) { return lines.get(i); }
-
-    public Line removeLine(int i) { return lines.remove(i); }
-
-    public int getLinesSize() { return lines.size(); }
-
     public Circle addCircle(Circle circle) {
 
-        circles.add(circle);
+        geometry.add(circle);
         return circle;
 
     }
 
-    public Circle getCircle(int i) { return circles.get(i); }
+    public int geometrySize() { return geometry.size(); }
 
-    public Circle removeCircle(int i) { return circles.remove(i); }
+    public Geometry getGeometryAt(int i) {
 
-    public int getCirclesSize() { return circles.size(); }
+        // Out of bounds
+        if (i >= geometry.size() || i < 0) return null;
+        else return geometry.get(i);
+    }
+
+    public Geometry removeGeometryAt(int i) {
+
+        // Out of bounds
+        if (i >= geometry.size() || i < 0) return null;
+        else {
+
+            Geometry obj = geometry.get(i);
+            geometry.remove(i);
+            return obj;
+
+        }
+    }
 
     public void drawCursor(Graphics2D g2d) {
 
@@ -140,37 +148,43 @@ public class BluePrint extends JPanel {
         // Draw the lines
         g2d.setPaint(Color.WHITE);
         g2d.setStroke(new BasicStroke(3));
-        for (int i = 0; i < lines.size(); i++) {
 
-            Line line = lines.get(i);
-            if (line.isSelected()) {
+        for (int i = 0; i < geometry.size(); i++) {
 
-                g2d.setStroke(new BasicStroke(5));
-                g2d.setPaint(new Color(255, 255, 255, 100));
-                g2d.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+            Geometry object = geometry.get(i);
+            
+            // Object is line
+            if (object instanceof Line) {
+                
+                Line line = (Line) object;
+                if (line.isSelected()) {
 
+                    g2d.setStroke(new BasicStroke(5));
+                    g2d.setPaint(new Color(255, 255, 255, 100));
+                    g2d.drawLine(line.getStart().getX() + line.offsetX, line.getStart().getY() + line.offsetY, line.getEnd().getX() + line.offsetX, line.getEnd().getY() + line.offsetY);
+
+                }
+
+                g2d.setPaint(line.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.drawLine(line.getStart().getX() + line.offsetX, line.getStart().getY() + line.offsetY, line.getEnd().getX() + line.offsetX, line.getEnd().getY() + line.offsetY);
             }
 
-            g2d.setPaint(line.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
-            g2d.setStroke(new BasicStroke(3));
-            g2d.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-        
-        }
+            // Object is a circle
+            if (object instanceof Circle) {
 
-        // Draw the circles
-        for (int i = 0; i < circles.size(); i++) {
+                Circle circle = (Circle) object;
+                if (circle.isSelected()) {
 
-            Circle circle = circles.get(i);
-            if (circle.isSelected()) {
-
-                g2d.setStroke(new BasicStroke(5));
-                g2d.setPaint(new Color(255, 255, 255, 100));
-                g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                    g2d.setStroke(new BasicStroke(5));
+                    g2d.setPaint(new Color(255, 255, 255, 100));
+                    g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + circle.offsetX, circle.getCenter().getY() - circle.getRadius() + circle.offsetX, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                }
+    
+                g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + circle.offsetX, circle.getCenter().getY() - circle.getRadius() + circle.offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
             }
-
-            g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
-            g2d.setStroke(new BasicStroke(3));
-            g2d.drawArc(circle.getCenter().getX() - circle.getRadius(), circle.getCenter().getY() - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
         }
 
         // Draw the line from the last line point to the current mouse position if the line brush is selected
@@ -219,13 +233,5 @@ public class BluePrint extends JPanel {
             g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
         }
         drawCursor(g2d);
-    }
-
-    @Override
-    public void repaint() {
-        
-        if (hasFocus()) super.repaint();
-        else return;
-
     }
 }

@@ -38,11 +38,12 @@ public class Main {
         Frame frame = new Frame();
         ButtonPanel buttons = new ButtonPanel(10, 10, width - 20, 80, new Color(50, 50, 55));
         BluePrint blueprint = new BluePrint(10, 100, width - 20, height - 110, new Color(0, 91, 140));
-        blueprint.setListeners(new KeyboardListener(blueprint, buttons), new MouseListener(blueprint));
+        blueprint.setListeners(new MouseListener(blueprint));
         blueprint.setCursor(blankCursor);
         buttons.setListeners(new MouseListener(buttons));
         frame.add(buttons);
         frame.add(blueprint);
+        frame.setListeners(new KeyboardListener(blueprint, buttons));
 
         // Fill the textures hashmap
         try {

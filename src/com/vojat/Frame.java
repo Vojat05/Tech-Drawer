@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
+import com.vojat.Listeners.KeyboardListener;
+
 public class Frame extends JFrame {
 
     public Frame() {
@@ -14,5 +16,12 @@ public class Frame extends JFrame {
         getContentPane().setBackground(new Color(50, 50, 55));
         setLayout(null);
         setVisible(true);
+    }
+
+    public void setListeners(KeyboardListener kbl) {
+
+        if (kbl == null) return;
+        addKeyListener(kbl);
+        
     }
 }
