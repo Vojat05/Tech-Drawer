@@ -74,8 +74,12 @@ public class MouseListener implements MouseInputListener {
                 btnp.repaint();
                 return;
     
-            } else if (me.getX() >= btnp.getWidth() - 40 && me.getX() <= btnp.getWidth() - 10 && me.getY() >= 10 && me.getY() <= 70) System.exit(0);
-            else if (me.getX() >= 308 && me.getX() <= 346 && me.getY() >= 36 && me.getY() <= 74) {
+            } else if (me.getX() >= btnp.getWidth() - 40 && me.getX() <= btnp.getWidth() - 10 && me.getY() >= 10 && me.getY() <= 70) {
+                
+                System.exit(0);
+                System.out.println("Shutting down!");
+
+            } else if (me.getX() >= 308 && me.getX() <= 346 && me.getY() >= 36 && me.getY() <= 74) {
 
                 ButtonPanel.setSelected((byte) 2);
                 btnp.repaint();
@@ -84,9 +88,8 @@ public class MouseListener implements MouseInputListener {
             } else if (me.getX() >= btnp.getWidth() - 120 && me.getX() >= btnp.getWidth() - 90 && me.getY() >= 10 && me.getY() <= 70) {
 
                 // Open settings
-                Frame settings = new Frame(800, 600, "Settings", false, Main.backgroundColor);
+                new Frame(800, 600, "Settings", false, Main.backgroundColor);
                 System.out.println("Openning settings!");
-
             }
         }
 
