@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import com.vojat.Frame;
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
 import com.vojat.DataStructures.Geometry;
@@ -79,6 +80,12 @@ public class MouseListener implements MouseInputListener {
                 ButtonPanel.setSelected((byte) 2);
                 btnp.repaint();
                 return;
+
+            } else if (me.getX() >= btnp.getWidth() - 120 && me.getX() >= btnp.getWidth() - 90 && me.getY() >= 10 && me.getY() <= 70) {
+
+                // Open settings
+                Frame settings = new Frame(800, 600, "Settings", false, Main.backgroundColor);
+                System.out.println("Openning settings!");
 
             }
         }
@@ -164,7 +171,6 @@ public class MouseListener implements MouseInputListener {
 
         // Here the points arraylist always has 2 points
         BluePrint bp = (BluePrint) parent;
-        bp.repaint();
         
         // Check if some geometry is to be selected
         for (int i = 0; i < bp.geometrySize(); i++) {
@@ -172,27 +178,28 @@ public class MouseListener implements MouseInputListener {
             Geometry object = bp.getGeometryAt(i);
 
             // Is a line
-            if (object instanceof Line) {
+            if (!(object instanceof Line)) continue;
 
-                Line line = (Line) object;
-                Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
-                Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
-                Point start = line.getStart();
-                Point end = line.getEnd();
-                
-                if (selectionIsContain) {
+            Line line = (Line) object;
+            Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
+            Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
+            Point start = line.getStart();
+            Point end = line.getEnd();
+            
+            if (selectionIsContain) {
 
-                    if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
-                    else line.select(false);
-                
-                } else {
+                if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
+                else line.select(false);
+            
+            } else {
 
-                    if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
-                    else line.select(true);
-                }
+                if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
+                else line.select(true);
+
             }
-            points.clear();
         }
+        bp.repaint();
+        points.clear();
     }
 
     @Override

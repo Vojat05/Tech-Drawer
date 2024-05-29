@@ -20,14 +20,19 @@ import com.vojat.Panels.ButtonPanel;
 
 public class Main {
 
+    public static BluePrint bluePrint;
+    public static ButtonPanel buttonPanel;
+    public static int[] screenSize = new int[2];
     public static HashMap<Integer, Picture> textures = new HashMap<>();
     public static boolean snaptogrid = true;
+    public static Color blueprintColor = new Color(0, 91, 140);
+    public static Color backgroundColor = new Color(50, 50, 55);
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to Tech Drawer !\nProgram for creating technical drawings.");
-        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 70;
+        screenSize[0] = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        screenSize[1] = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 70;
 
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
@@ -36,14 +41,14 @@ public class Main {
 
         // Create the main frame and add the blueprint, button panel
         Frame frame = new Frame();
-        ButtonPanel buttons = new ButtonPanel(10, 10, width - 20, 80, new Color(50, 50, 55));
-        BluePrint blueprint = new BluePrint(10, 100, width - 20, height - 110, new Color(0, 91, 140));
-        blueprint.setListeners(new MouseListener(blueprint));
-        blueprint.setCursor(blankCursor);
-        buttons.setListeners(new MouseListener(buttons));
-        frame.add(buttons);
-        frame.add(blueprint);
-        frame.setListeners(new KeyboardListener(blueprint, buttons));
+        buttonPanel = new ButtonPanel(10, 10, screenSize[0] - 20, 80, backgroundColor);
+        bluePrint = new BluePrint(10, 100, screenSize[0] - 20, screenSize[1] - 110, blueprintColor);
+        bluePrint.setListeners(new MouseListener(bluePrint));
+        bluePrint.setCursor(blankCursor);
+        buttonPanel.setListeners(new MouseListener(buttonPanel));
+        frame.add(buttonPanel);
+        frame.add(bluePrint);
+        frame.setListeners(new KeyboardListener(bluePrint, buttonPanel));
 
         // Fill the textures hashmap
         try {

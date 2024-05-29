@@ -18,6 +18,22 @@ public class Frame extends JFrame {
         setVisible(true);
     }
 
+    public Frame(int width, int height, String title, boolean maximized, Color backgroundColor) {
+        setSize(width, height);
+        setLocation((int) (Main.screenSize[0] * .5 - 400), (int) (Main.screenSize[1] * .5 - 300));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle(title);
+        if (maximized) {
+
+            setUndecorated(true);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        }
+        getContentPane().setBackground(backgroundColor);
+        setLayout(null);
+        setVisible(true);
+    }
+
     public void setListeners(KeyboardListener kbl) {
 
         if (kbl == null) return;

@@ -77,5 +77,13 @@ public class ButtonPanel extends JPanel {
         g2d.setPaint(Color.WHITE);
         g2d.drawLine(this.getWidth() - 35, 25, this.getWidth() - 15, 50);
         g2d.drawLine(this.getWidth() - 35, 50, this.getWidth() - 15, 25);
+
+        // Draw the settings button
+        g2d.setPaint(new Color(204, 204, 204));
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawRoundRect(this.getWidth() - 90, 10, 30, 60, 10, 10);
+        g2d.fillArc(this.getWidth() - 85, 30, 20, 20, 0, 360);
+        g2d.setPaint(Main.backgroundColor);
+        g2d.fillArc(this.getWidth() - 80, 35, 10, 10, 0, 360);
     }
 }

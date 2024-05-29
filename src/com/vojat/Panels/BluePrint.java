@@ -23,6 +23,7 @@ public class BluePrint extends JPanel {
     public KeyboardListener keyboardListener;
     private int[] mousePos = new int[2];
     private ArrayList<Geometry> geometry = new ArrayList<Geometry>();
+    private int offsetX = 0, offsetY = 0;
 
     public BluePrint(int x, int y, int width, int height, Color color) {
         setSize(width, height);
@@ -161,13 +162,13 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(5));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawLine(line.getStart().getX() + line.offsetX, line.getStart().getY() + line.offsetY, line.getEnd().getX() + line.offsetX, line.getEnd().getY() + line.offsetY);
+                    g2d.drawLine(line.getStart().getX() + offsetX, line.getStart().getY() + offsetY, line.getEnd().getX() + offsetX, line.getEnd().getY() + offsetY);
 
                 }
 
                 g2d.setPaint(line.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
                 g2d.setStroke(new BasicStroke(3));
-                g2d.drawLine(line.getStart().getX() + line.offsetX, line.getStart().getY() + line.offsetY, line.getEnd().getX() + line.offsetX, line.getEnd().getY() + line.offsetY);
+                g2d.drawLine(line.getStart().getX() + offsetX, line.getStart().getY() + offsetY, line.getEnd().getX() + offsetX, line.getEnd().getY() + offsetY);
             }
 
             // Object is a circle
@@ -178,12 +179,12 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(5));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + circle.offsetX, circle.getCenter().getY() - circle.getRadius() + circle.offsetX, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                    g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + offsetX, circle.getCenter().getY() - circle.getRadius() + offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
                 }
     
                 g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
                 g2d.setStroke(new BasicStroke(3));
-                g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + circle.offsetX, circle.getCenter().getY() - circle.getRadius() + circle.offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + offsetX, circle.getCenter().getY() - circle.getRadius() + offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
             }
         }
 

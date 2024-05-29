@@ -28,7 +28,6 @@ public class KeyboardListener implements KeyListener {
 
         // The modifier keys
         int key = ke.getKeyCode();
-        System.out.println("Key pressed!");
 
         switch (key) {
             case KeyEvent.VK_CONTROL:
@@ -85,11 +84,7 @@ public class KeyboardListener implements KeyListener {
 
                     
 
-                } else {
-
-                    Main.snaptogrid = Main.snaptogrid ? false : true;
-
-                }
+                } else Main.snaptogrid = Main.snaptogrid ? false : true;
                 break;
 
             default: break;
