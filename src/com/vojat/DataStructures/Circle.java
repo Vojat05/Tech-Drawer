@@ -4,7 +4,7 @@ public class Circle extends Geometry{
     private short startAngle;
     private short endAngle;
     private Point center;
-    private int radius;
+    private double radius;
     private boolean selected = false;
 
     public Circle(Point center, int radius, short startAngle, short endAngle) {
@@ -28,9 +28,9 @@ public class Circle extends Geometry{
 
     public Point getCenter() { return this.center; }
 
-    public int setRadius(int r) { return this.radius = r; }
+    public double setRadius(int r) { return this.radius = r; }
 
-    public int getRadius() { return this.radius; }
+    public double getRadius() { return this.radius; }
 
     public boolean select(boolean val) { return this.selected = val; }
 
@@ -41,7 +41,8 @@ public class Circle extends Geometry{
         int x = point.getX();
         int y = point.getY();
 
-        if (Math.pow((x - center.getX()), 2) + Math.pow((y - center.getY()), 2) == Math.pow(radius, 2)) return true;
+        if (Math.pow((x - center.getX()), 2) + Math.pow((y - center.getY()), 2) == Math.pow(radius, 2) && !center.equals(point)) return true;
         else return false;
+        
     }
 }

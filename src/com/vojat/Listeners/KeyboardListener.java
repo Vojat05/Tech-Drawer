@@ -87,6 +87,14 @@ public class KeyboardListener implements KeyListener {
                 } else Main.snaptogrid = Main.snaptogrid ? false : true;
                 break;
 
+            case KeyEvent.VK_Z:
+                
+                // Remove last element
+                if (blueprint.geometrySize() == 0) break;
+                if (ctrl) blueprint.removeGeometryAt(blueprint.geometrySize() - 1);
+                blueprint.repaint();
+                break;
+
             default: break;
         }
     }

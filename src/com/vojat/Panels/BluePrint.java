@@ -179,12 +179,13 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(5));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + offsetX, circle.getCenter().getY() - circle.getRadius() + offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                    g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                
                 }
     
                 g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
                 g2d.setStroke(new BasicStroke(3));
-                g2d.drawArc(circle.getCenter().getX() - circle.getRadius() + offsetX, circle.getCenter().getY() - circle.getRadius() + offsetY, circle.getRadius() * 2, circle.getRadius() * 2, circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
             }
         }
 

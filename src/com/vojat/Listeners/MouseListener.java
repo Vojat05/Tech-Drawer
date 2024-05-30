@@ -181,24 +181,63 @@ public class MouseListener implements MouseInputListener {
             Geometry object = bp.getGeometryAt(i);
 
             // Is a line
-            if (!(object instanceof Line)) continue;
+            if (object instanceof Line) {
 
-            Line line = (Line) object;
-            Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
-            Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
-            Point start = line.getStart();
-            Point end = line.getEnd();
-            
-            if (selectionIsContain) {
+                Line line = (Line) object;
+                Point left = points.get(0).getX() < points.get(1).getX() ? points.get(0) : points.get(1);
+                Point right = points.get(0).getX() > points.get(1).getX() ? points.get(0) : points.get(1);
+                Point start = line.getStart();
+                Point end = line.getEnd();
+                
+                if (selectionIsContain) {
+    
+                    if (start.getX() >= left.getX() && start.getX() <= right.getX() && start.getY() >= points.get(0).getY() && start.getY() <= points.get(1).getY() && end.getX() >= left.getX() && end.getX() <= right.getX() && end.getY() >= points.get(0).getY() && end.getY() <= points.get(1).getY()) line.select(true);
+                    else line.select(false);
+                
+                } else {
+    
+                    if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
+                    else line.select(true);
+    
+                }
+            } else if (object instanceof Circle) {
 
-                if (start.getX() > left.getX() && start.getX() < right.getX() && start.getY() > points.get(0).getY() && start.getY() < points.get(1).getY() && end.getX() > left.getX() && end.getX() < right.getX() && end.getY() > points.get(0).getY() && end.getY() < points.get(1).getY()) line.select(true);
-                else line.select(false);
-            
-            } else {
+                Circle circle = (Circle) object;
+                Point center = circle.getCenter();
+                double radius = circle.getRadius();
+                Point leftTop;
+                Point rightBot;
+                int x, y;
 
-                if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
-                else line.select(true);
+                // Left top
+                if (points.get(0).getX() < points.get(1).getX()) x = points.get(0).getX();
+                else x = points.get(1).getX();
 
+                if (points.get(0).getY() < points.get(1).getY()) y = points.get(0).getY();
+                else y = points.get(1).getY();
+
+                leftTop = new Point(x, y);
+
+                // Right bottom
+                if (points.get(0).getX() > points.get(1).getX()) x = points.get(0).getX();
+                else x = points.get(1).getX();
+
+                if (points.get(0).getY() > points.get(1).getY()) y = points.get(0).getY();
+                else y = points.get(1).getY();
+
+                rightBot = new Point(x, y);
+
+                if (selectionIsContain) {
+
+                    if (center.getX() - radius >= leftTop.getX() && center.getX() + radius <= rightBot.getX() && center.getY() - radius >= leftTop.getY() && center.getY() + radius <= rightBot.getY()) circle.select(true);
+                    else circle.select(false);
+
+                } else {
+
+                    if (rightBot.getX() < center.getX() - radius || leftTop.getX() > center.getX() || rightBot.getY() < center.getY() - radius || leftTop.getY() > center.getY() + radius) circle.select(false);
+                    else circle.select(true);
+
+                }
             }
         }
         bp.repaint();
