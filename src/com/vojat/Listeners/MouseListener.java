@@ -14,6 +14,7 @@ import com.vojat.DataStructures.Line;
 import com.vojat.DataStructures.Point;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
+import com.vojat.Panels.SettingsPanel;
 
 public class MouseListener implements MouseInputListener {
 
@@ -88,7 +89,9 @@ public class MouseListener implements MouseInputListener {
             } else if (me.getX() >= btnp.getWidth() - 120 && me.getX() >= btnp.getWidth() - 90 && me.getY() >= 10 && me.getY() <= 70) {
 
                 // Open settings
+                if (SettingsPanel.isOpen) return;
                 new Frame(800, 600, "Settings", false, Main.backgroundColor);
+                SettingsPanel.isOpen = true;
                 System.out.println("Openning settings!");
             }
         }

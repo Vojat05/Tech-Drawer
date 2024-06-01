@@ -20,6 +20,7 @@ import com.vojat.Listeners.MouseListener;
 public class BluePrint extends JPanel {
 
     public static Color backColor = new Color(0, 91, 140);
+    public static boolean detailLines = true;
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
     private int[] mousePos = new int[2];
@@ -118,6 +119,7 @@ public class BluePrint extends JPanel {
         // Horizontal
         for (int i = 0; i < this.getWidth(); i += 10) {
             if (i % 50 == 0) g2d.setPaint(new Color(200, 200, 200, 160));
+            else if (!detailLines) continue;
             else g2d.setPaint(new Color(200, 200, 200, 80));
             g2d.drawLine(i, 0, i, this.getHeight());
         }
@@ -125,6 +127,7 @@ public class BluePrint extends JPanel {
         // Vertical
         for (int i = 0; i < this.getHeight(); i += 10) {
             if (i % 50 == 0) g2d.setPaint(new Color(200, 200, 200, 160));
+            else if (!detailLines) continue;
             else g2d.setPaint(new Color(200, 200, 200, 80));
             g2d.drawLine(0, i, this.getWidth(), i);
         }
