@@ -25,7 +25,6 @@ public class Main {
     public static int[] screenSize = new int[2];
     public static HashMap<Integer, Picture> textures = new HashMap<>();
     public static boolean snaptogrid = true;
-    public static Color blueprintColor = new Color(0, 91, 140);
     public static Color backgroundColor = new Color(50, 50, 55);
 
     public static void main(String[] args) {
@@ -42,7 +41,7 @@ public class Main {
         // Create the main frame and add the blueprint, button panel
         Frame frame = new Frame();
         buttonPanel = new ButtonPanel(10, 10, screenSize[0] - 20, 80, backgroundColor);
-        bluePrint = new BluePrint(10, 100, screenSize[0] - 20, screenSize[1] - 110, blueprintColor);
+        bluePrint = new BluePrint(10, 100, screenSize[0] - 20, screenSize[1] - 110, BluePrint.backColor);
         bluePrint.setListeners(new MouseListener(bluePrint));
         bluePrint.setCursor(blankCursor);
         buttonPanel.setListeners(new MouseListener(buttonPanel));
@@ -59,6 +58,13 @@ public class Main {
             textures.put(2, new Picture(ImageIO.read(new File("../../Resources/Pictures/Rcircle.png")), 308, 36, 38, 38));
 
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
+    }
+
+    public static void repaint() {
+
+        bluePrint.repaint();
+        buttonPanel.repaint();
+        
     }
 
     public static float[] quadratic(float a, float b, float c) {

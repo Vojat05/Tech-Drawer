@@ -19,6 +19,7 @@ import com.vojat.Listeners.MouseListener;
 
 public class BluePrint extends JPanel {
 
+    public static Color backColor = new Color(0, 91, 140);
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
     private int[] mousePos = new int[2];
@@ -235,5 +236,11 @@ public class BluePrint extends JPanel {
             g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
         }
         drawCursor(g2d);
+    }
+
+    public void repaint() {
+        super.repaint();
+
+        this.setBackground(backColor);
     }
 }
