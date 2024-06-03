@@ -80,11 +80,8 @@ public class KeyboardListener implements KeyListener {
 
             case KeyEvent.VK_S:
                 // Save if control + S
-                if (ctrl) {
-
-                    
-
-                } else Main.snaptogrid = Main.snaptogrid ? false : true;
+                if (ctrl) Main.save(null);
+                else Main.snaptogrid = Main.snaptogrid ? false : true;
                 break;
 
             case KeyEvent.VK_Z:

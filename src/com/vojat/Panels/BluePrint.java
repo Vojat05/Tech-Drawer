@@ -243,7 +243,6 @@ public class BluePrint extends JPanel {
 
     public void repaint() {
         super.repaint();
-
         this.setBackground(backColor);
     }
 }

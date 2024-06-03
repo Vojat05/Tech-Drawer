@@ -67,6 +67,24 @@ public class Main {
         
     }
 
+    public static void save(File file) {
+
+    }
+
+    public static boolean validHEX(String value) {
+
+        if (value.length() > 7 || value.length() < 6) return false;
+        else if (value.contains("#") && value.length() != 7) return false;
+        else {
+            for (int i = 0; i < value.length(); i++) {
+                char c = value.charAt(i);
+                if (c < 48 && c > 57 || c < 97 && c > 102) return false;
+            }
+            return true;
+        }
+
+    }
+
     public static float[] quadratic(float a, float b, float c) {
         
         float[] solution = new float[2];

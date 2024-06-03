@@ -1,7 +1,6 @@
 package com.vojat.Panels;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -16,6 +15,8 @@ import java.awt.event.ActionEvent;
 public class SettingsPanel extends JPanel {
 
     public static boolean isOpen = false;
+    private Color backColor = Color.decode("#005b8c");
+    private boolean detailLines = true;
     private Frame parent;
     
     public SettingsPanel(int width, int height, Color backgroundColor, Frame parent) {
@@ -28,6 +29,16 @@ public class SettingsPanel extends JPanel {
         JTextField newColor = new JTextField(7);
         newColor.setLocation(220, 40);
         newColor.setSize(80, 25);
+        newColor.setText("#005b8c");
+        newColor.addActionListener((e) -> {
+            try {
+                backColor = Color.decode((newColor.getText().charAt(0) == '#' ? "" : "#") + newColor.getText());
+            } catch (NumberFormatException nfe) {
+                backColor = Color.decode("#005b8c");
+            } finally {
+                this.repaint();
+            }
+        });
 
         JButton button = new JButton("Apply");
         button.setSize(150, 60);
@@ -50,13 +61,7 @@ public class SettingsPanel extends JPanel {
         button = new JButton("Background Lines");
         button.setSize(150, 50);
         button.setLocation(20, 100);
-        button.addActionListener((e) -> apply(e));
-
-        JLabel linesIcon = new JLabel();
-        linesIcon.setBackground(new Color(35, 233, 19));
-        linesIcon.setSize(50, 50);
-        linesIcon.setLocation(200, 100);
-        add(linesIcon);
+        button.addActionListener((e) -> { detailLines = detailLines ? false : true; this.repaint(); });
         add(button);
         add(newColor);
     }
@@ -69,18 +74,24 @@ public class SettingsPanel extends JPanel {
         g2d.setPaint(Color.WHITE);
         g2d.setFont(g2d.getFont().deriveFont(16f));
         g2d.drawString("Blueprint bakground color:", 20, 60);
+        
+        g2d.setPaint(detailLines ? new Color(40, 255, 45) : Color.RED);
+        g2d.fillRect(200, 100, 50, 50);
+
+        g2d.setPaint(backColor);
+        g2d.fillRect(320, 40, 50, 25);
     }
 
     private void apply(ActionEvent e, JTextField newColor) {
-        
-        String text = newColor.getText();
-        BluePrint.backColor = Color.decode((text.charAt(0) == '#' ? "" : "#") + text);
-        Main.repaint();
-    }
-
-    private void apply(ActionEvent e) {
-
-        BluePrint.detailLines = BluePrint.detailLines ? false : true;
+        try {
+            backColor = Color.decode((newColor.getText().charAt(0) == '#' ? "" : "#") + newColor.getText());
+        } catch (NumberFormatException nfe) {
+            backColor = Color.decode("#005b8c");
+        } finally {
+            this.repaint();
+        }
+        BluePrint.backColor = this.backColor;
+        BluePrint.detailLines = this.detailLines;
         Main.repaint();
     }
 }
