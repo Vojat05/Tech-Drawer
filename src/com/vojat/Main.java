@@ -92,7 +92,7 @@ public class Main {
                     Circle circle = (Circle) object;
                     write = "C:";
                     write += "" + circle.getCenter().getX() + ":" + circle.getCenter().getY() + ":";
-                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + "!";
+                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + ":";
                     write += "" + circle.getRadius() + ";";
                 }
                 fw.append(write);

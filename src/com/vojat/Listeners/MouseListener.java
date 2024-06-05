@@ -90,9 +90,9 @@ public class MouseListener implements MouseInputListener {
 
                 // Open settings
                 if (SettingsPanel.isOpen) return;
-                new Frame(800, 600, "Settings", false, Main.backgroundColor);
+                Frame settingsWindow = new Frame(800, 600, "Settings", false, Main.backgroundColor);
+                settingsWindow.addContentPanel(new SettingsPanel(settingsWindow.width, settingsWindow.height, settingsWindow.backColor, settingsWindow));
                 SettingsPanel.isOpen = true;
-                System.out.println("Openning settings!");
             }
         }
 

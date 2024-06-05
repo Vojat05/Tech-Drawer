@@ -3,13 +3,19 @@ package com.vojat;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.vojat.Listeners.KeyboardListener;
-import com.vojat.Panels.SettingsPanel;
 
 public class Frame extends JFrame {
 
+    public int width;
+    public int height;
+    public String title;
+    public Color backColor;
+
     public Frame() {
+        this.title = "Tech Drawer";
         setTitle("Tech Drawer");
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -20,6 +26,10 @@ public class Frame extends JFrame {
     }
 
     public Frame(int width, int height, String title, boolean maximized, Color backgroundColor) {
+        this.title = title;
+        this.backColor = backgroundColor;
+        this.width = width;
+        this.height = height;
         setSize(width, height);
         setLocation((int) (Main.screenSize[0] * .5 - 400), (int) (Main.screenSize[1] * .5 - 300)); // Centers the window
         setTitle(title);
@@ -35,10 +45,12 @@ public class Frame extends JFrame {
             setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         }
-        
-        SettingsPanel content = new SettingsPanel(width, height, backgroundColor, this);
-        add(content);
         setVisible(true);
+    }
+
+    public JPanel addContentPanel(JPanel panel) {
+        this.add(panel);
+        return panel;
     }
 
     public void setListeners(KeyboardListener kbl) {
