@@ -75,6 +75,7 @@ public class Main {
 
     public static void save(File file) {
         try {
+            if (!file.exists()) file.createNewFile();
             FileWriter fw = new FileWriter(file);
             for (int i = 0; i < bluePrint.geometrySize(); i++) {
     
@@ -123,7 +124,7 @@ public class Main {
             }
             fr.close();
         } catch (IOException ioe) { ioe.printStackTrace(); }
-        repaint();
+        Main.repaint();
     }
 
     private static void generateGeometry(String data) {

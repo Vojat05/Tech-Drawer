@@ -17,10 +17,8 @@ public class SettingsPanel extends JPanel {
     public static boolean isOpen = false;
     private Color backColor = Color.decode("#005b8c");
     private boolean detailLines = true;
-    private Frame parent;
     
     public SettingsPanel(int width, int height, Color backgroundColor, Frame parent) {
-        this.parent = parent;
 
         setSize(width, height);
         setBackground(backgroundColor);

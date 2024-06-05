@@ -15,7 +15,9 @@ public class Frame extends JFrame {
     public Color backColor;
 
     public Frame() {
+
         this.title = "Tech Drawer";
+        
         setTitle("Tech Drawer");
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -26,10 +28,12 @@ public class Frame extends JFrame {
     }
 
     public Frame(int width, int height, String title, boolean maximized, Color backgroundColor) {
+
         this.title = title;
         this.backColor = backgroundColor;
         this.width = width;
         this.height = height;
+
         setSize(width, height);
         setLocation((int) (Main.screenSize[0] * .5 - 400), (int) (Main.screenSize[1] * .5 - 300)); // Centers the window
         setTitle(title);

@@ -1,16 +1,18 @@
 package com.vojat.Listeners;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.IOException;
 
+import com.vojat.Frame;
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
 import com.vojat.DataStructures.Geometry;
 import com.vojat.DataStructures.Line;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
+import com.vojat.Panels.SavePanel;
 
 public class KeyboardListener implements KeyListener {
 
@@ -83,12 +85,8 @@ public class KeyboardListener implements KeyListener {
             case KeyEvent.VK_S:
                 // Save if control + S
                 if (ctrl) {
-                    try {
-                        File saveData = new File("../../Data.txt");
-                        if (!saveData.exists()) saveData.createNewFile();
-                        Main.save(saveData);
-                        System.out.println("Saved to file: " + saveData.getAbsolutePath());
-                    } catch (IOException ioe) { ioe.printStackTrace(); }
+                    Frame saveWindow = new Frame(800, 600, "Save", false, new Color(24, 24, 24));
+                    saveWindow.addContentPanel(new SavePanel(saveWindow));
                 }
                 else Main.snaptogrid = Main.snaptogrid ? false : true;
                 break;
@@ -111,6 +109,11 @@ public class KeyboardListener implements KeyListener {
 
             default: break;
         }
+
+        // Clear the input modifiers
+        ctrl = false;
+        alt = false;
+        shift = false;
     }
 
     @Override
@@ -118,18 +121,6 @@ public class KeyboardListener implements KeyListener {
         int key = ke.getKeyCode();
 
         switch (key) {
-            case KeyEvent.VK_CONTROL:
-                ctrl = false;
-                break;
-            
-            case KeyEvent.VK_SHIFT:
-                shift = false;
-                break;
-
-            case KeyEvent.VK_ALT:
-                alt = false;
-                break;
-
             case KeyEvent.VK_ESCAPE:
                 if (ButtonPanel.getSelected() != 0) {
 
