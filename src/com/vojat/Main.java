@@ -7,11 +7,16 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.vojat.DataStructures.Geometry;
+import com.vojat.DataStructures.Circle;
+import com.vojat.DataStructures.Line;
 import com.vojat.DataStructures.Picture;
 import com.vojat.Listeners.KeyboardListener;
 import com.vojat.Listeners.MouseListener;
@@ -58,6 +63,7 @@ public class Main {
             textures.put(2, new Picture(ImageIO.read(new File("../../Resources/Pictures/Rcircle.png")), 308, 36, 38, 38));
 
         } catch (IOException ioe) { System.err.println("IOException: Can't find image\n" + ioe.getCause()); }
+        load(new File("../../Test.txt"));
     }
 
     public static void repaint() {
@@ -68,7 +74,88 @@ public class Main {
     }
 
     public static void save(File file) {
+        try {
+            FileWriter fw = new FileWriter(file);
+            for (int i = 0; i < bluePrint.geometrySize(); i++) {
+    
+                String write = "";
+                Geometry object = bluePrint.getGeometryAt(i);
+                if (object instanceof Line) {
+                    
+                    Line line = (Line) object;
+                    write = "L:";
+                    write += "" + line.getStart().getX() + ":" + line.getStart().getY() + ":";
+                    write += "" + line.getEnd().getX() + ":" + line.getEnd().getY() + ";";
+                
+                } else if (object instanceof Circle) {
+    
+                    Circle circle = (Circle) object;
+                    write = "C:";
+                    write += "" + circle.getCenter().getX() + ":" + circle.getCenter().getY() + ":";
+                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + "!";
+                    write += "" + circle.getRadius() + ";";
+                }
+                fw.append(write);
+            }
+            fw.close();
+        } catch (IOException ioe) { ioe.printStackTrace(); }
+    }
 
+    public static void load(File file) {
+        if (!file.exists()) return;
+        try {
+            FileReader fr = new FileReader(file);
+            int character;
+            String object = "";
+            while (true) {
+                character = fr.read();
+                if (character == -1) break;
+                switch ((char) character) {
+                    case ';':
+                        generateGeometry(object);
+                        object = "";                
+                        break;
+                
+                    default:
+                        object += (char) character;
+                        break;
+                }
+            }
+            fr.close();
+        } catch (IOException ioe) { ioe.printStackTrace(); }
+    }
+
+    private static void generateGeometry(String data) {
+        if (data.charAt(0) == 'L') {
+
+            int[] values = new int[4]; // Sx, Sy, Ex, Ey
+            int i = 2;
+            int index;
+            String value;
+
+            for (int j = 0; j < 4; j++) {
+                index = data.substring(i).indexOf(':');
+                value = data.substring(i, j == 3 ? data.length() : index + i);
+                i += index + 1;
+                values[j] = Integer.parseInt(value);
+            }
+            bluePrint.addLine(new Line(values[0], values[1], values[2], values[3]));
+
+        } else if (data.charAt(0) == 'C') {
+            
+            int[] values = new int[5]; // Cx, Cy, radius, startAngle, endAngle
+            int i = 2;
+            int index;
+            String value;
+
+            for (int j = 0; j < 5; j++) {
+                index = data.substring(i).indexOf(':');
+                value = data.substring(i, j == 4 ? data.length() : index + i);
+                i += index + 1;
+                values[j] = Integer.parseInt(value);
+            }
+            bluePrint.addCircle(new Circle(values[0], values[1], values[2], (short) values[3], (short) values[4]));
+        }
     }
 
     public static boolean validHEX(String value) {

@@ -12,6 +12,13 @@ public class Line extends Geometry {
 
     }
 
+    public Line(int sx, int sy, int ex, int ey) {
+
+        this.start = new Point(sx, sy);
+        this.end = new Point(ex, ey);
+        
+    }
+
     public Point setStart(Point point) { return this.start = point; }
 
     public Point setEnd(Point point) { return this.end = point; }

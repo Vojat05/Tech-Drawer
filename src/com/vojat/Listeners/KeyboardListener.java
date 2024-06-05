@@ -2,6 +2,8 @@ package com.vojat.Listeners;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 import com.vojat.Main;
 import com.vojat.DataStructures.Circle;
@@ -80,8 +82,23 @@ public class KeyboardListener implements KeyListener {
 
             case KeyEvent.VK_S:
                 // Save if control + S
-                if (ctrl) Main.save(null);
+                if (ctrl) {
+                    try {
+                        File saveData = new File("../../Data.txt");
+                        saveData.createNewFile();
+                        Main.save(saveData);
+                        System.out.println("Saved to file: " + saveData.getAbsolutePath());
+                    } catch (IOException ioe) { ioe.printStackTrace(); }
+                }
                 else Main.snaptogrid = Main.snaptogrid ? false : true;
+                break;
+
+            case KeyEvent.VK_L:
+                if (ctrl) {
+                    File saveData = new File("../../Data.txt");
+                    if (!saveData.exists()) break;
+                    Main.load(saveData);
+                }
                 break;
 
             case KeyEvent.VK_Z:

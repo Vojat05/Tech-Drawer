@@ -16,6 +16,15 @@ public class Circle extends Geometry{
 
     }
 
+    public Circle(int cx, int cy, int radius, short startAngle, short endAngle) {
+
+        this.center = new Point(cx, cy);
+        this.radius = radius;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
+        
+    }
+
     public short setStartAngle(short angle) { return this.startAngle = angle; }
 
     public short getStartAngle() { return this.startAngle; }
