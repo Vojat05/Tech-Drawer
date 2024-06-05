@@ -85,7 +85,7 @@ public class KeyboardListener implements KeyListener {
                 if (ctrl) {
                     try {
                         File saveData = new File("../../Data.txt");
-                        saveData.createNewFile();
+                        if (!saveData.exists()) saveData.createNewFile();
                         Main.save(saveData);
                         System.out.println("Saved to file: " + saveData.getAbsolutePath());
                     } catch (IOException ioe) { ioe.printStackTrace(); }

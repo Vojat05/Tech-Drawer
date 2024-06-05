@@ -92,8 +92,8 @@ public class Main {
                     Circle circle = (Circle) object;
                     write = "C:";
                     write += "" + circle.getCenter().getX() + ":" + circle.getCenter().getY() + ":";
-                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + ":";
-                    write += "" + circle.getRadius() + ";";
+                    write += "" + circle.getRadius() + ":";
+                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + ";";
                 }
                 fw.append(write);
             }
@@ -123,6 +123,7 @@ public class Main {
             }
             fr.close();
         } catch (IOException ioe) { ioe.printStackTrace(); }
+        repaint();
     }
 
     private static void generateGeometry(String data) {
@@ -137,7 +138,7 @@ public class Main {
                 index = data.substring(i).indexOf(':');
                 value = data.substring(i, j == 3 ? data.length() : index + i);
                 i += index + 1;
-                values[j] = Integer.parseInt(value);
+                values[j] = (int) Double.parseDouble(value);
             }
             bluePrint.addLine(new Line(values[0], values[1], values[2], values[3]));
 
@@ -152,34 +153,9 @@ public class Main {
                 index = data.substring(i).indexOf(':');
                 value = data.substring(i, j == 4 ? data.length() : index + i);
                 i += index + 1;
-                values[j] = Integer.parseInt(value);
+                values[j] = (int) Double.parseDouble(value);
             }
             bluePrint.addCircle(new Circle(values[0], values[1], values[2], (short) values[3], (short) values[4]));
         }
-    }
-
-    public static boolean validHEX(String value) {
-
-        if (value.length() > 7 || value.length() < 6) return false;
-        else if (value.contains("#") && value.length() != 7) return false;
-        else {
-            for (int i = 0; i < value.length(); i++) {
-                char c = value.charAt(i);
-                if (c < 48 && c > 57 || c < 97 && c > 102) return false;
-            }
-            return true;
-        }
-
-    }
-
-    public static float[] quadratic(float a, float b, float c) {
-        
-        float[] solution = new float[2];
-        float d = (float) Math.pow(Math.pow(b, 2) - 4 * a * c, .5);
-        
-        solution[0] = (-b + d) / (2 * a);
-        solution[1] = (-b - d) / (2 * a);
-
-        return solution;
     }
 }
