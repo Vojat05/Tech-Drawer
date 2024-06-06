@@ -86,7 +86,7 @@ public class Main {
                     Line line = (Line) object;
                     write = "L:";
                     write += "" + line.getStart().getX() + ":" + line.getStart().getY() + ":";
-                    write += "" + line.getEnd().getX() + ":" + line.getEnd().getY() + ";";
+                    write += "" + line.getEnd().getX() + ":" + line.getEnd().getY() + ";\n";
                 
                 } else if (object instanceof Circle) {
     
@@ -94,31 +94,35 @@ public class Main {
                     write = "C:";
                     write += "" + circle.getCenter().getX() + ":" + circle.getCenter().getY() + ":";
                     write += "" + circle.getRadius() + ":";
-                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + ";";
+                    write += "" + circle.getStartAngle() + ":" + circle.getEndAngle() + ";\n";
                 }
                 fw.append(write);
             }
+            fw.append("?");
             fw.close();
         } catch (IOException ioe) { ioe.printStackTrace(); }
     }
 
     public static void load(File file) {
         if (!file.exists()) return;
+        bluePrint.clearGeometry();
         try {
             FileReader fr = new FileReader(file);
-            int character;
             String object = "";
             while (true) {
-                character = fr.read();
-                if (character == -1) break;
-                switch ((char) character) {
+                char character = (char) fr.read();
+                if (character == '?') break;
+                switch (character) {
                     case ';':
                         generateGeometry(object);
                         object = "";                
                         break;
+
+                    case '\n': break;
+                    case '\r': break;
                 
                     default:
-                        object += (char) character;
+                        object += character;
                         break;
                 }
             }

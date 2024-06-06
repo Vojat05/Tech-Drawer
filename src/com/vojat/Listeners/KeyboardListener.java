@@ -3,7 +3,6 @@ package com.vojat.Listeners;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 
 import com.vojat.Frame;
 import com.vojat.Main;
@@ -85,17 +84,16 @@ public class KeyboardListener implements KeyListener {
             case KeyEvent.VK_S:
                 // Save if control + S
                 if (ctrl) {
-                    Frame saveWindow = new Frame(800, 600, "Save", false, new Color(24, 24, 24));
-                    saveWindow.addContentPanel(new SavePanel(saveWindow));
+                    Frame fileDialog = new Frame(800, 600, "Save", false, new Color(24, 24, 24));
+                    fileDialog.addContentPanel(new SavePanel(fileDialog, SavePanel.SAVE));
                 }
                 else Main.snaptogrid = Main.snaptogrid ? false : true;
                 break;
 
             case KeyEvent.VK_L:
                 if (ctrl) {
-                    File saveData = new File("../../Data.txt");
-                    if (!saveData.exists()) break;
-                    Main.load(saveData);
+                    Frame fileDialog = new Frame(800, 600, "Load", false, new Color(24, 24, 24));
+                    fileDialog.addContentPanel(new SavePanel(fileDialog, SavePanel.LOAD));
                 }
                 break;
 
@@ -104,6 +102,11 @@ public class KeyboardListener implements KeyListener {
                 // Remove last element
                 if (blueprint.geometrySize() == 0) break;
                 if (ctrl) blueprint.removeGeometryAt(blueprint.geometrySize() - 1);
+                blueprint.repaint();
+                break;
+
+            case KeyEvent.VK_A:
+                if (ctrl) for (int i = 0; i < blueprint.geometrySize(); i++) blueprint.getGeometryAt(i).select(true);
                 blueprint.repaint();
                 break;
 

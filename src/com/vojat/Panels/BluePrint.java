@@ -75,6 +75,8 @@ public class BluePrint extends JPanel {
 
     public int geometrySize() { return geometry.size(); }
 
+    public void clearGeometry() { geometry.clear(); }
+
     public Geometry getGeometryAt(int i) {
 
         // Out of bounds
@@ -170,7 +172,7 @@ public class BluePrint extends JPanel {
 
                 }
 
-                g2d.setPaint(line.isSelected() ? new Color(225, 255, 225) : Color.WHITE);
+                g2d.setPaint(line.isSelected() ? new Color(225, 255, 138) : Color.WHITE);    
                 g2d.setStroke(new BasicStroke(3));
                 g2d.drawLine(line.getStart().getX() + offsetX, line.getStart().getY() + offsetY, line.getEnd().getX() + offsetX, line.getEnd().getY() + offsetY);
             }

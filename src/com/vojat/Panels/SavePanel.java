@@ -15,21 +15,25 @@ import com.vojat.Main;
 
 public class SavePanel extends JPanel {
 
+    public static final byte SAVE = 1;
+    public static final byte LOAD = 2;
+    public byte type;
     private int width, height;
     private String title;
 
-    public SavePanel(Frame parent) {
+    public SavePanel(Frame parent, byte type) {
 
         this.width = parent.width;
         this.height = parent.height;
         this.title = parent.title;
+        this.type = type;
 
         setSize(width, height);
         setBackground(parent.backColor);
         setLayout(null);
 
         JTextField fileLocation = new JTextField();
-        fileLocation.setText("Untitled.txt");
+        fileLocation.setText(type == 1 ? "Untitled.txt" : "../../Data.txt");
         fileLocation.setSize(400, 25);
         fileLocation.setLocation(150, 500);
         add(fileLocation);
@@ -43,10 +47,11 @@ public class SavePanel extends JPanel {
         button.addActionListener((e) -> { parent.dispose(); });
         add(button);
 
-        button = new JButton("Save");
+        button = new JButton(type == 1 ? "Save" : "Load");
         button.setSize(75, 25);
         button.setLocation(560, 500);
-        button.addActionListener((e) -> { Main.save(new File(fileLocation.getText())); parent.dispose(); });
+        if (type == 1) button.addActionListener((e) -> { Main.save(new File(fileLocation.getText())); parent.dispose(); });
+        else if (type == 2) button.addActionListener((e) -> { Main.load(new File(fileLocation.getText())); parent.dispose(); });
         add(button);
 
         this.repaint();
@@ -63,9 +68,18 @@ public class SavePanel extends JPanel {
         g2d.setFont(g2d.getFont().deriveFont(16f));
         g2d.drawLine(0, 30, this.width, 30);
         g2d.drawString(title, 40, 20);
-        g2d.drawLine(10, 25, 30, 25);
-        g2d.drawLine(20, 5, 20, 24);
-        g2d.drawLine(15, 15, 20, 24);
-        g2d.drawLine(25, 15, 20, 24);
+
+        // Draw the icon
+        if (type == 1) {
+            g2d.drawLine(10, 25, 30, 25);
+            g2d.drawLine(20, 5, 20, 24);
+            g2d.drawLine(15, 15, 20, 24);
+            g2d.drawLine(25, 15, 20, 24);
+        } else if (type == 2) {
+            g2d.drawLine(10, 25, 30, 25);
+            g2d.drawLine(20, 5, 20, 24);
+            g2d.drawLine(15, 15, 20, 5);
+            g2d.drawLine(25, 15, 20, 5);
+        }
     }
 }
