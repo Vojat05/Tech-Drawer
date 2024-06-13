@@ -23,9 +23,10 @@ public class BluePrint extends JPanel {
     public static boolean detailLines = true;
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
+    public int offsetX = 0, offsetY = 0;
+    private int savedOffsetX = 0, savedOffsetY = 0;
     private int[] mousePos = new int[2];
     private ArrayList<Geometry> geometry = new ArrayList<Geometry>();
-    private int offsetX = 0, offsetY = 0;
 
     public BluePrint(int x, int y, int width, int height, Color color) {
         setSize(width, height);
@@ -46,6 +47,24 @@ public class BluePrint extends JPanel {
         addMouseMotionListener(ml);
 
         this.mouseListener = ml;
+        
+    }
+
+    public void writeThroughOffsets() {
+
+        savedOffsetX += offsetX;
+        savedOffsetY += offsetY;
+        offsetX = 0;
+        offsetY = 0;
+        
+    }
+
+    public int[] getOffsetsXY() {
+
+        int[] offsets = new int[2];
+        offsets[0] = savedOffsetX;
+        offsets[1] = savedOffsetY;
+        return offsets;
         
     }
 
@@ -168,13 +187,13 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(5));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawLine(line.getStart().getX() + offsetX, line.getStart().getY() + offsetY, line.getEnd().getX() + offsetX, line.getEnd().getY() + offsetY);
+                    g2d.drawLine(line.getStart().getX() + offsetX + savedOffsetX, line.getStart().getY() + offsetY + savedOffsetY, line.getEnd().getX() + offsetX + savedOffsetX, line.getEnd().getY() + offsetY + savedOffsetY);
 
                 }
 
                 g2d.setPaint(line.isSelected() ? new Color(225, 255, 138) : Color.WHITE);    
                 g2d.setStroke(new BasicStroke(3));
-                g2d.drawLine(line.getStart().getX() + offsetX, line.getStart().getY() + offsetY, line.getEnd().getX() + offsetX, line.getEnd().getY() + offsetY);
+                g2d.drawLine(line.getStart().getX() + offsetX + savedOffsetX, line.getStart().getY() + offsetY + savedOffsetY, line.getEnd().getX() + offsetX + savedOffsetX, line.getEnd().getY() + offsetY + savedOffsetY);
             }
 
             // Object is a circle
@@ -185,13 +204,13 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(5));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                    g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX + savedOffsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY + savedOffsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
                 
                 }
     
                 g2d.setPaint(circle.isSelected() ? new Color(225, 255, 138) : Color.WHITE);
                 g2d.setStroke(new BasicStroke(3));
-                g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
+                g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() + offsetX + savedOffsetX), (int) (circle.getCenter().getY() - circle.getRadius() + offsetY + savedOffsetY), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getStartAngle() - circle.getEndAngle());
             }
         }
 

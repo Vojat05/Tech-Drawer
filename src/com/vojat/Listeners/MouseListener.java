@@ -21,6 +21,7 @@ public class MouseListener implements MouseInputListener {
     public boolean selectionIsContain;
     private JPanel parent;
     private ArrayList<Point> points = new ArrayList<Point>();
+    private boolean mouseWheelDown = false;
 
     public MouseListener(JPanel bp) {
 
@@ -100,6 +101,7 @@ public class MouseListener implements MouseInputListener {
         BluePrint bp;
         if (parent instanceof BluePrint) bp = (BluePrint) parent;
         else return;
+
         switch (me.getButton()) {
             case 1:
                 if (ButtonPanel.getSelected() == 0) {
@@ -152,7 +154,9 @@ public class MouseListener implements MouseInputListener {
                 break;
             
             case 2:
-                System.out.println("MMB");
+                points.clear();
+                points.add(new Point(me.getX(), me.getY()));
+                mouseWheelDown = true;
                 break;
             
             case 3:
@@ -169,7 +173,7 @@ public class MouseListener implements MouseInputListener {
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        
+
         // Return if parent panel isn't BluePrint
         if (!(parent instanceof BluePrint)) return;
         if (ButtonPanel.getSelected() == 0) points.add(new Point(me.getX(), me.getY()));
@@ -177,6 +181,13 @@ public class MouseListener implements MouseInputListener {
 
         // Here the points arraylist always has 2 points
         BluePrint bp = (BluePrint) parent;
+
+        if (me.getButton() == 2) {
+
+            mouseWheelDown = false;
+            bp.writeThroughOffsets();
+
+        }
         
         // Check if some geometry is to be selected
         for (int i = 0; i < bp.geometrySize(); i++) {
@@ -256,6 +267,14 @@ public class MouseListener implements MouseInputListener {
             BluePrint bp = (BluePrint) parent;
             if (Main.snaptogrid) bp.setMousePos(snapX(me.getX()), snapY(me.getY()));
             else bp.setMousePos(me.getX(), me.getY());
+
+            if (points.size() > 0 && mouseWheelDown) {
+
+                System.out.println("X: " + (me.getX() - points.get(0).getX()) + " | Current offset: " + bp.offsetX + "\nY: " + (me.getY() - points.get(0).getY()) + " | Current offset: " + bp.offsetY);
+                bp.offsetX = (Main.snaptogrid ? snapX(me.getX()) : me.getX()) - points.get(0).getX();
+                bp.offsetY = (Main.snaptogrid ? snapY(me.getY()) : me.getY()) - points.get(0).getY();
+            
+            }
 
             // Check if the selection is pass-through or contain
             if (ButtonPanel.getSelected() == 0 && points.size() != 0) {
