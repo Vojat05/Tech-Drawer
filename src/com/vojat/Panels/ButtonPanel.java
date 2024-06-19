@@ -9,7 +9,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import com.vojat.Main;
-import com.vojat.DataStructures.Picture;
+import com.vojat.Geometry.Picture;
 import com.vojat.Listeners.MouseListener;
 
 public class ButtonPanel extends JPanel {

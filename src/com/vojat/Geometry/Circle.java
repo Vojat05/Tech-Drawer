@@ -1,4 +1,4 @@
-package com.vojat.DataStructures;
+package com.vojat.Geometry;
 
 public class Circle extends Geometry{
     private short startAngle;

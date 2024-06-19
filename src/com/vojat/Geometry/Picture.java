@@ -1,4 +1,4 @@
-package com.vojat.DataStructures;
+package com.vojat.Geometry;
 
 import java.awt.Image;
 

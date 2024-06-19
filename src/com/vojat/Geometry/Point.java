@@ -1,4 +1,4 @@
-package com.vojat.DataStructures;
+package com.vojat.Geometry;
 
 public class Point extends Geometry {
     private int x;

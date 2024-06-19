@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 
 import com.vojat.Frame;
 import com.vojat.Main;
-import com.vojat.DataStructures.Circle;
-import com.vojat.DataStructures.Geometry;
-import com.vojat.DataStructures.Line;
+import com.vojat.Geometry.Circle;
+import com.vojat.Geometry.Geometry;
+import com.vojat.Geometry.Line;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
 import com.vojat.Panels.SavePanel;
@@ -107,6 +107,11 @@ public class KeyboardListener implements KeyListener {
 
             case KeyEvent.VK_A:
                 if (ctrl) for (int i = 0; i < blueprint.geometrySize(); i++) blueprint.getGeometryAt(i).select(true);
+                blueprint.repaint();
+                break;
+
+            case KeyEvent.VK_N:
+                if (ctrl) blueprint.clearGeometry();
                 blueprint.repaint();
                 break;
 

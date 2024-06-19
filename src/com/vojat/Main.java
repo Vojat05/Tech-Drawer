@@ -14,10 +14,10 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import com.vojat.DataStructures.Geometry;
-import com.vojat.DataStructures.Circle;
-import com.vojat.DataStructures.Line;
-import com.vojat.DataStructures.Picture;
+import com.vojat.Geometry.Circle;
+import com.vojat.Geometry.Geometry;
+import com.vojat.Geometry.Line;
+import com.vojat.Geometry.Picture;
 import com.vojat.Listeners.KeyboardListener;
 import com.vojat.Listeners.MouseListener;
 import com.vojat.Panels.BluePrint;

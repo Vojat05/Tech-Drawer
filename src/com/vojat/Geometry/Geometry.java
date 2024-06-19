@@ -1,4 +1,4 @@
-package com.vojat.DataStructures;
+package com.vojat.Geometry;
 
 public abstract class Geometry {
     public abstract boolean isSelected();

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import com.vojat.DataStructures.Point;
 import com.vojat.Main;
-import com.vojat.DataStructures.Circle;
-import com.vojat.DataStructures.Geometry;
-import com.vojat.DataStructures.Line;
+import com.vojat.Geometry.Circle;
+import com.vojat.Geometry.Geometry;
+import com.vojat.Geometry.Line;
+import com.vojat.Geometry.Point;
 import com.vojat.Listeners.KeyboardListener;
 import com.vojat.Listeners.MouseListener;
 
@@ -168,8 +168,7 @@ public class BluePrint extends JPanel {
 
         g2d.setPaint(Color.WHITE);
         g2d.setFont(getFont().deriveFont(24f));
-        g2d.drawString("X: " + mousePos[0], recalcX + 60, recalcY + 30);
-        g2d.drawString("Y: " + mousePos[1], recalcX + 180, recalcY + 30);
+        g2d.drawString("X: " + mousePos[0] + (mousePos[0] < 1000 ? "  " : " ") + "Y: " + mousePos[1], recalcX + 60, recalcY + 30);
 
         // Draw the lines
         g2d.setPaint(Color.WHITE);

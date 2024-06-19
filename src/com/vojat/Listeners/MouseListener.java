@@ -8,10 +8,10 @@ import javax.swing.event.MouseInputListener;
 
 import com.vojat.Frame;
 import com.vojat.Main;
-import com.vojat.DataStructures.Circle;
-import com.vojat.DataStructures.Geometry;
-import com.vojat.DataStructures.Line;
-import com.vojat.DataStructures.Point;
+import com.vojat.Geometry.Circle;
+import com.vojat.Geometry.Geometry;
+import com.vojat.Geometry.Line;
+import com.vojat.Geometry.Point;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
 import com.vojat.Panels.SettingsPanel;
@@ -192,7 +192,9 @@ public class MouseListener implements MouseInputListener {
         // Check if some geometry is to be selected
         for (int i = 0; i < bp.geometrySize(); i++) {
 
+            if (points.size() < 2) break;
             Geometry object = bp.getGeometryAt(i);
+            int[] offsets = bp.getOffsetsXY();
 
             // Is a line
             if (object instanceof Line) {
@@ -205,12 +207,12 @@ public class MouseListener implements MouseInputListener {
                 
                 if (selectionIsContain) {
     
-                    if (start.getX() >= left.getX() && start.getX() <= right.getX() && start.getY() >= points.get(0).getY() && start.getY() <= points.get(1).getY() && end.getX() >= left.getX() && end.getX() <= right.getX() && end.getY() >= points.get(0).getY() && end.getY() <= points.get(1).getY()) line.select(true);
+                    if (start.getX() >= left.getX() + offsets[0] && start.getX() <= right.getX() + offsets[0] && start.getY() >= points.get(0).getY() + offsets[1] && start.getY() <= points.get(1).getY() + offsets[1] && end.getX() >= left.getX() + offsets[0] && end.getX() <= right.getX() + offsets[0] && end.getY() >= points.get(0).getY() + offsets[1] && end.getY() <= points.get(1).getY() + offsets[1]) line.select(true);
                     else line.select(false);
                 
                 } else {
     
-                    if (start.getX() < left.getX() && end.getX() < left.getX() || start.getX() > right.getX() && end.getX() > right.getX() || start.getY() < points.get(1).getY() && end.getY() < points.get(1).getY() || start.getY() > points.get(0).getY() && end.getY() > points.get(0).getY()) line.select(false);
+                    if (start.getX() < left.getX() + offsets[0] && end.getX() < left.getX() + offsets[0] || start.getX() > right.getX() + offsets[0] && end.getX() > right.getX() + offsets[0] || start.getY() < points.get(1).getY() + offsets[1] && end.getY() < points.get(1).getY() + offsets[1] || start.getY() > points.get(0).getY() + offsets[1] && end.getY() > points.get(0).getY() + offsets[1]) line.select(false);
                     else line.select(true);
     
                 }
@@ -243,12 +245,12 @@ public class MouseListener implements MouseInputListener {
 
                 if (selectionIsContain) {
 
-                    if (center.getX() - radius >= leftTop.getX() && center.getX() + radius <= rightBot.getX() && center.getY() - radius >= leftTop.getY() && center.getY() + radius <= rightBot.getY()) circle.select(true);
+                    if (center.getX() - radius >= leftTop.getX() + offsets[0] && center.getX() + radius <= rightBot.getX() + offsets[0] && center.getY() - radius >= leftTop.getY() + offsets[1] && center.getY() + radius <= rightBot.getY() + offsets[1]) circle.select(true);
                     else circle.select(false);
 
                 } else {
 
-                    if (rightBot.getX() < center.getX() - radius || leftTop.getX() > center.getX() || rightBot.getY() < center.getY() - radius || leftTop.getY() > center.getY() + radius) circle.select(false);
+                    if (rightBot.getX() + offsets[0] < center.getX() - radius || leftTop.getX() + offsets[0] > center.getX() || rightBot.getY() + offsets[1] < center.getY() - radius || leftTop.getY() + offsets[1] > center.getY() + radius) circle.select(false);
                     else circle.select(true);
 
                 }
