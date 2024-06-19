@@ -52,7 +52,17 @@ public class SavePanel extends JPanel {
         button = new JButton(type == 1 ? "Save" : "Load");
         button.setSize(75, 25);
         button.setLocation(560, 550);
-        if (type == 1) button.addActionListener((e) -> { Main.save(new File("../../Resources/Files/" + fileLocation.getText())); parent.dispose(); });
+        if (type == 1) button.addActionListener((e) -> {
+
+            File file = new File("../../Resources/Files/" + fileLocation.getText());
+            if (file.exists()) {
+
+                Frame frame = new Frame(500, 300, "Overwrite Error", false, parent.backColor);
+                frame.add(new ErrorPanel(500, 300, "File exists, do you want to overwrite it?", "Error Overwrite", parent.backColor, file, frame, ErrorPanel.YESNO));
+
+            } 
+            parent.dispose();
+        });
         else if (type == 2) button.addActionListener((e) -> { Main.load(new File("../../Resources/Files/" + fileLocation.getText())); parent.dispose(); });
         add(button);
 
