@@ -35,10 +35,15 @@ public class SavePanel extends JPanel {
         setLayout(null);
 
         JTextField fileLocation = new JTextField();
-        fileLocation.setText(type == 1 ? "Untitled.txt" : "");
+        fileLocation.setText(type == 1 ? "Untitled" : "");
         fileLocation.setSize(400, 25);
         fileLocation.setLocation(150, 550);
         add(fileLocation);
+
+        JTextField fileExtension = new JTextField();
+        fileExtension.setLocation(645, 550);
+        fileExtension.setSize(75, 25);
+        add(fileExtension);
 
         JButton button = new JButton("X");
         button.setSize(50, 30);
@@ -53,14 +58,15 @@ public class SavePanel extends JPanel {
         button.setSize(75, 25);
         button.setLocation(560, 550);
         if (type == 1) button.addActionListener((e) -> {
-
-            File file = new File("../../Resources/Files/" + fileLocation.getText());
+            
+            // Save
+            File file = new File("../../Resources/Files/" + fileLocation.getText() + "." + fileExtension.getText());
             if (file.exists()) {
 
                 Frame frame = new Frame(500, 300, "Overwrite Error", false, parent.backColor);
                 frame.add(new ErrorPanel(500, 300, "File exists, do you want to overwrite it?", "Error Overwrite", parent.backColor, file, frame, ErrorPanel.YESNO));
 
-            } 
+            } else Main.save(file);
             parent.dispose();
         });
         else if (type == 2) button.addActionListener((e) -> { Main.load(new File("../../Resources/Files/" + fileLocation.getText())); parent.dispose(); });
@@ -104,9 +110,17 @@ public class SavePanel extends JPanel {
 
             currentFile = new File("../../Resources/Files");
             if (!currentFile.exists()) currentFile.createNewFile();
+
             Directory dir = new Directory(currentFile.getName(), 0);
             String[] subFiles = currentFile.list();
-            for (int i = 0; i < subFiles.length; i++) dir.addContent(new com.vojat.DataStructures.File(subFiles[i], ".txt"));
+
+            for (int i = 0; i < subFiles.length; i++) {
+
+                if (subFiles[i].equals(".gitkeep")) continue;
+                dir.addContent(new com.vojat.DataStructures.File(subFiles[i], ".txt"));
+
+            }
+
             com.vojat.DataStructures.Directory.draw(50, 60, dir, g2d);
 
         } catch(IOException ioe) { ioe.printStackTrace(); }

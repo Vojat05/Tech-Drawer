@@ -272,7 +272,6 @@ public class MouseListener implements MouseInputListener {
 
             if (points.size() > 0 && mouseWheelDown) {
 
-                System.out.println("X: " + (me.getX() - points.get(0).getX()) + " | Current offset: " + bp.offsetX + "\nY: " + (me.getY() - points.get(0).getY()) + " | Current offset: " + bp.offsetY);
                 bp.offsetX = (Main.snaptogrid ? snapX(me.getX()) : me.getX()) - points.get(0).getX();
                 bp.offsetY = (Main.snaptogrid ? snapY(me.getY()) : me.getY()) - points.get(0).getY();
             

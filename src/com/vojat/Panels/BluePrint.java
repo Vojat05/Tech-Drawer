@@ -68,6 +68,14 @@ public class BluePrint extends JPanel {
         
     }
 
+    public Geometry[] getGeometryCopy() {
+
+        Geometry[] geometryCopy = new Geometry[geometry.size()];
+        for (int i = 0; i < geometry.size(); i++) geometryCopy[i] = geometry.get(i);
+        return geometryCopy;
+        
+    }
+
     public int[] setMousePos(int x, int y) {
 
         mousePos[0] = x;

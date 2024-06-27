@@ -31,12 +31,15 @@ public class Directory {
         g2d.setFont(g2d.getFont().deriveFont(18f));
         g2d.drawString(dir.name, x + 40, y + 18);
 
-        // Has subdirectory
-        int[] subLineX = {4 + x, 4 + x, 24 + x};
-        int[] subLineY = {24 + y, 44 + y, 44 + y};
-        g2d.setPaint(new Color(140, 140, 140));
-        g2d.drawPolyline(subLineX, subLineY, subLineX.length);
+        // Has conent
+        if (dir.content.size() != 0) {
 
+            int[] subLineX = {4 + x, 4 + x, 24 + x};
+            int[] subLineY = {24 + y, 44 + y, 44 + y};
+            g2d.setPaint(new Color(140, 140, 140));
+            g2d.drawPolyline(subLineX, subLineY, subLineX.length);
+
+        }
         for (int i = 0; i < dir.content.size(); i++) File.draw(x + 40, y + 30 + 35 * i, dir.content.get(i).name, g2d);
     }
 }

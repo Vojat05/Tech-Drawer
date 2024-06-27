@@ -76,6 +76,13 @@ public class Main {
     public static void save(File file) {
         try {
             if (!file.exists()) file.createNewFile();
+            String fileExtension = file.getName().substring(file.getName().indexOf('.') + 1);
+            
+            if (fileExtension.equals("png")) {
+                Export.exportToPNG(file, bluePrint.getGeometryCopy());
+                return;
+            }
+
             FileWriter fw = new FileWriter(file);
             for (int i = 0; i < bluePrint.geometrySize(); i++) {
     
@@ -101,6 +108,7 @@ public class Main {
             fw.append("?");
             fw.close();
         } catch (IOException ioe) { ioe.printStackTrace(); }
+        System.gc();
     }
 
     public static void load(File file) {
@@ -129,6 +137,7 @@ public class Main {
             fr.close();
         } catch (IOException ioe) { ioe.printStackTrace(); }
         Main.repaint();
+        System.gc();
     }
 
     private static void generateGeometry(String data) {
