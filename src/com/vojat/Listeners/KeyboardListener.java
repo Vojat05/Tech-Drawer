@@ -75,9 +75,9 @@ public class KeyboardListener implements KeyListener {
                 
                 // Check if there is a start point placed
                 if (ButtonPanel.getSelected() != 0) {
-                    if (blueprint.mouseListener.isDrawing()) {
+                    if (Main.bluePrint.get(Main.activeBluePrint).mouseListener.isDrawing()) {
                     
-                        blueprint.mouseListener.stopDrawing();
+                        Main.bluePrint.get(Main.activeBluePrint).mouseListener.stopDrawing();
                         break;
                     
                     } else ButtonPanel.setSelected((byte) 0);

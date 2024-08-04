@@ -6,22 +6,25 @@ public class Circle extends Geometry{
     private Point center;
     private double radius;
     private boolean selected = false;
+    private byte thickness;
 
-    public Circle(Point center, int radius, short startAngle, short endAngle) {
+    public Circle(Point center, int radius, short startAngle, short endAngle, byte thickness) {
 
         this.center = center;
         this.radius = radius;
         this.startAngle = startAngle;
         this.endAngle = endAngle;
+        this.thickness = thickness;
 
     }
 
-    public Circle(int cx, int cy, int radius, short startAngle, short endAngle) {
+    public Circle(int cx, int cy, int radius, short startAngle, short endAngle, byte thickness) {
 
         this.center = new Point(cx, cy);
         this.radius = radius;
         this.startAngle = startAngle;
         this.endAngle = endAngle;
+        this.thickness = thickness;
         
     }
 
@@ -44,6 +47,10 @@ public class Circle extends Geometry{
     public boolean select(boolean val) { return this.selected = val; }
 
     public boolean isSelected() { return this.selected; }
+
+    public byte setThickness(byte thickness) { return this.thickness = thickness; }
+
+    public byte getThickness() { return this.thickness; }
 
     public boolean isOnCircle(Point point) {
 

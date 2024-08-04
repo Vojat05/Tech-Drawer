@@ -41,6 +41,7 @@ public class SavePanel extends JPanel {
         add(fileLocation);
 
         JTextField fileExtension = new JTextField();
+        fileExtension.setText(type == 1 ? "txt" : "");
         fileExtension.setLocation(645, 550);
         fileExtension.setSize(75, 25);
         add(fileExtension);
@@ -69,7 +70,18 @@ public class SavePanel extends JPanel {
             } else Main.save(file);
             parent.dispose();
         });
-        else if (type == 2) button.addActionListener((e) -> { Main.load(new File("../../Resources/Files/" + fileLocation.getText())); parent.dispose(); });
+        else if (type == 2) button.addActionListener((e) -> { 
+            
+            // Load
+            File file = new File("../../Resources/Files/" + fileLocation.getText() + "." + fileExtension.getText());
+            if (!file.exists()) {
+
+                Frame frame = new Frame(500, 300, "File Not Found Error", false, parent.backColor);
+                frame.add(new ErrorPanel(500, 300, "File " + fileLocation.getText() + " doesn't exist.", "File Not Found Error", parent.backColor, file, frame, ErrorPanel.OK));
+
+            } else Main.load(file);
+            parent.dispose();
+        });
         add(button);
 
         this.repaint();

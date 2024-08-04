@@ -29,7 +29,29 @@ public class ErrorPanel extends JPanel {
         setLayout(null);
         setBackground(backgroundColor);
 
-        if (type == 2) {
+        if (type == 1) {
+            JButton okBTN = new JButton("Ok");
+            JButton close = new JButton("X");
+
+            okBTN.setSize(80, 50);
+            close.setSize(50, 30);
+
+            okBTN.setLocation(400, 230);
+            close.setLocation(450, 0);
+
+            close.setForeground(Color.WHITE);
+            close.setBackground(Color.RED);
+
+            okBTN.setFocusPainted(false);
+            close.setFocusPainted(false);
+            close.setBorderPainted(false);
+
+            okBTN.addActionListener((e) -> parent.dispose());
+            close.addActionListener((e) -> parent.dispose());
+
+            add(okBTN);
+            add(close);
+        } else if (type == 2) {
             JButton yesBTN = new JButton("Yes");
             JButton noBTN = new JButton("No");
             JButton close = new JButton("X");

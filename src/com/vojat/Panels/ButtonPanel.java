@@ -58,7 +58,7 @@ public class ButtonPanel extends JPanel {
         g2d.drawString("Lines", 110, 20);
         g2d.drawString("Circles", 390, 20);
 
-        //Drawing the buttons images
+        //Drawing the buttons images & all the textures
         for (int i = 1; i < Main.textures.size(); i++) {
 
             Picture pic = Main.textures.get(i);

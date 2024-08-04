@@ -4,18 +4,21 @@ public class Line extends Geometry {
     private Point start;
     private Point end;
     private boolean isSelected = false;
+    private byte thickness;
 
-    public Line(Point start, Point end) {
+    public Line(Point start, Point end, byte thickness) {
 
         this.start = start;
         this.end = end;
+        this.thickness = thickness;
 
     }
 
-    public Line(int sx, int sy, int ex, int ey) {
+    public Line(int sx, int sy, int ex, int ey, byte thickness) {
 
         this.start = new Point(sx, sy);
         this.end = new Point(ex, ey);
+        this.thickness = thickness;
         
     }
 
@@ -30,6 +33,10 @@ public class Line extends Geometry {
     public boolean select(boolean val) { return this.isSelected = val; }
 
     public boolean isSelected() { return this.isSelected; }
+
+    public byte getThickness() { return this.thickness; }
+
+    public byte setThickness(byte thickness) { return this.thickness = thickness; }
 
     public boolean isOnLine(Point point) {
 

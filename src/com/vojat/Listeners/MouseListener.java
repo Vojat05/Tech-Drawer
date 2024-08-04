@@ -14,6 +14,7 @@ import com.vojat.Geometry.Line;
 import com.vojat.Geometry.Point;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
+import com.vojat.Panels.LineSettingsPanel;
 import com.vojat.Panels.SettingsPanel;
 
 public class MouseListener implements MouseInputListener {
@@ -71,18 +72,21 @@ public class MouseListener implements MouseInputListener {
             btnp = (ButtonPanel) parent;
 
             if (me.getX() >= 30 && me.getX() <= 64 && me.getY() >= 40 && me.getY() <= 74) {
-    
+                
+                // PTP line tool
                 ButtonPanel.setSelected((byte) 1);
                 btnp.repaint();
                 return;
     
             } else if (me.getX() >= btnp.getWidth() - 40 && me.getX() <= btnp.getWidth() - 10 && me.getY() >= 10 && me.getY() <= 70) {
                 
+                // Close button
                 System.exit(0);
                 System.out.println("Shutting down!");
 
             } else if (me.getX() >= 308 && me.getX() <= 346 && me.getY() >= 36 && me.getY() <= 74) {
 
+                // Center & radius circle tool
                 ButtonPanel.setSelected((byte) 2);
                 btnp.repaint();
                 return;
@@ -94,6 +98,12 @@ public class MouseListener implements MouseInputListener {
                 Frame settingsWindow = new Frame(800, 600, "Settings", false, Main.backgroundColor);
                 settingsWindow.addContentPanel(new SettingsPanel(settingsWindow.width, settingsWindow.height, settingsWindow.backColor, settingsWindow));
                 SettingsPanel.isOpen = true;
+            } else if (me.getX() >= 220 && me .getY() <= 265 && me.getY() >= 30 && me.getY() <= 75) {
+
+                // Open line settings
+                if (SettingsPanel.isOpen) return;
+                Frame lineSettings = new Frame(500, 300, "Line Settings", false, Main.backgroundColor);
+                lineSettings.addContentPanel(new LineSettingsPanel(lineSettings.width, lineSettings.height, lineSettings.backColor, lineSettings));
             }
         }
 
@@ -135,7 +145,7 @@ public class MouseListener implements MouseInputListener {
                     if (points.size() == 1) {
 
                         Point end = new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY());
-                        bp.addLine(new Line(points.get(0), end));
+                        bp.addLine(new Line(points.get(0), end, LineSettingsPanel.thickness));
                         points.clear();
                         points.add(end);
 
@@ -146,7 +156,7 @@ public class MouseListener implements MouseInputListener {
                     if (points.size() == 1) {
 
                         Point end = new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY());
-                        bp.addCircle(new Circle(points.get(0), points.get(0).distance(end), (short) 0, (short) 360));
+                        bp.addCircle(new Circle(points.get(0), points.get(0).distance(end), (short) 0, (short) 360, LineSettingsPanel.thickness));
                         points.clear();
 
                     } else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
