@@ -56,7 +56,7 @@ public class SettingsPanel extends JPanel {
         button.addActionListener((e) -> { parent.dispose(); isOpen = false; });
         add(button);
 
-        button = new JButton("Background Lines");
+        button = new JButton("Detailed Lines");
         button.setSize(150, 50);
         button.setLocation(20, 100);
         button.addActionListener((e) -> { detailLines = detailLines ? false : true; this.repaint(); });
@@ -89,7 +89,7 @@ public class SettingsPanel extends JPanel {
             this.repaint();
         }
         BluePrint.backColor = this.backColor;
-        BluePrint.detailLines = this.detailLines;
+        Main.bluePrint.get(Main.activeBluePrint).detailLines = this.detailLines;
         Main.repaint();
     }
 }

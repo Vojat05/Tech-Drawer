@@ -20,7 +20,7 @@ public class MouseListener implements MouseInputListener {
 
     public boolean selectionIsContain;
     private JPanel parent;
-    private ArrayList<Point> points = new ArrayList<Point>();
+    public ArrayList<Point> points = new ArrayList<Point>();
     private boolean mouseWheelDown = false;
 
     public MouseListener(JPanel bp) {
@@ -67,8 +67,8 @@ public class MouseListener implements MouseInputListener {
 
         // It's a ButtonPanel
         ButtonPanel btnp = null;
-        if (parent instanceof ButtonPanel) btnp = (ButtonPanel) parent;
-        if (btnp != null) {
+        if (parent instanceof ButtonPanel) {
+            btnp = (ButtonPanel) parent;
 
             if (me.getX() >= 30 && me.getX() <= 64 && me.getY() >= 40 && me.getY() <= 74) {
     
@@ -187,6 +187,21 @@ public class MouseListener implements MouseInputListener {
             mouseWheelDown = false;
             bp.writeThroughOffsets();
 
+        }
+
+        // Change sheets
+        if (me.getX() <= 100 * Main.bluePrint.size() & me.getY() >= bp.getHeight() - 30) {
+            Main.changeSheet((int) (me.getX() * .01));
+            points.clear();
+            return;
+        }
+
+        // Create a new sheet
+        if (me.getX() > 100 * Main.bluePrint.size() + 3 && me.getX() < 100 * Main.bluePrint.size() + 33 && me.getY() >= bp.getHeight() - 30) {
+            Main.bluePrint.add(new BluePrint(10, 100, Main.screenSize[0] - 20, Main.screenSize[1] - 110, BluePrint.backColor));
+            Main.changeSheet(Main.bluePrint.size() - 1);
+            points.clear();
+            return;
         }
         
         // Check if some geometry is to be selected

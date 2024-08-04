@@ -13,7 +13,7 @@ Still a huge work in progress, if you find any bug or other kinds of a faulty be
 4) Run the <code>Run.exe</code> to run the program.<br><br>
 
 ## Troubleshooting
-If building or running the program returns an error, build the java files by running the console command <code>javac com/vojat/Main.java -d ./Build</code> in the directory <code>./src/</code>.<br><br>
+If building or running the program returns an error, build the java files by running the command line tool <code>javac com/vojat/Main.java -d ./Build</code> in the directory <code>./src/</code>.<br><br>
 
-If running the program with the .exe file return n error, run it using the command line tool <code>java com/vojat/Main</code> in the directory <code>./src/Build/</code>.
+If running the program with the .exe file returns an error, run it using the command line tool <code>java com/vojat/Main</code> in the directory <code>./src/Build/</code>.
 

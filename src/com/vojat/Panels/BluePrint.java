@@ -20,7 +20,7 @@ import com.vojat.Listeners.MouseListener;
 public class BluePrint extends JPanel {
 
     public static Color backColor = new Color(0, 91, 140);
-    public static boolean detailLines = true;
+    public boolean detailLines = true;
     public MouseListener mouseListener;
     public KeyboardListener keyboardListener;
     public int offsetX = 0, offsetY = 0;
@@ -34,6 +34,9 @@ public class BluePrint extends JPanel {
         setBackground(color);
         setFocusable(true);
 
+        setListeners(new MouseListener(this));
+        setCursor(Main.blankCursor);
+
         mousePos[0] = 0;
         mousePos[1] = 0;
         
@@ -42,12 +45,19 @@ public class BluePrint extends JPanel {
 
     public void setListeners(MouseListener ml) {
 
-        // Mouse and keyboard listener
+        // Mouse listener
         addMouseListener(ml);
         addMouseMotionListener(ml);
 
         this.mouseListener = ml;
-        
+    }
+
+    public void setListeners(KeyboardListener kbl) {
+
+        // Keyboard listener
+        addKeyListener(kbl);
+
+        this.keyboardListener = kbl;
     }
 
     public void writeThroughOffsets() {
@@ -144,7 +154,7 @@ public class BluePrint extends JPanel {
         
         // Paint the vertical and horizontal lines
         g2d.setStroke(new BasicStroke(1));
-
+        
         // Horizontal
         for (int i = 0; i < this.getWidth(); i += 10) {
             if (i % 50 == 0) g2d.setPaint(new Color(200, 200, 200, 160));
@@ -152,7 +162,7 @@ public class BluePrint extends JPanel {
             else g2d.setPaint(new Color(200, 200, 200, 80));
             g2d.drawLine(i, 0, i, this.getHeight());
         }
-
+        
         // Vertical
         for (int i = 0; i < this.getHeight(); i += 10) {
             if (i % 50 == 0) g2d.setPaint(new Color(200, 200, 200, 160));
@@ -160,23 +170,6 @@ public class BluePrint extends JPanel {
             else g2d.setPaint(new Color(200, 200, 200, 80));
             g2d.drawLine(0, i, this.getWidth(), i);
         }
-
-        // Mouse position box and values
-        int recalcX = (int) (this.getWidth() - this.getWidth() * .12);
-        int recalcY = this.getHeight() - 40;
-        int[] x = {recalcX + 25, recalcX + 30, recalcX + 38, recalcX + 41, recalcX + 60, recalcX + 60};
-        int[] y = {recalcY + 40, recalcY + 38, recalcY + 30, recalcY + 20, recalcY + 20, recalcY + 40};
-
-        g2d.setPaint(new Color(50, 50, 55));
-        g2d.setStroke(new BasicStroke(1));
-        g2d.drawArc(recalcX, recalcY, 40, 40, 270, 90);
-        g2d.fillArc(recalcX + 40, recalcY, 40, 40, 180, -90);
-        g2d.fillRect(recalcX + 60, recalcY, this.getWidth(), this.getHeight());
-        g2d.fillPolygon(x, y, x.length);
-
-        g2d.setPaint(Color.WHITE);
-        g2d.setFont(getFont().deriveFont(24f));
-        g2d.drawString("X: " + mousePos[0] + (mousePos[0] < 1000 ? "  " : " ") + "Y: " + mousePos[1], recalcX + 60, recalcY + 30);
 
         // Draw the lines
         g2d.setPaint(Color.WHITE);
@@ -245,28 +238,77 @@ public class BluePrint extends JPanel {
         else if (ButtonPanel.getSelected() == 1) {
 
             // If 0 lines have been drawn
-            if (mouseListener.getLastPoint() == null) {
+            if (mouseListener.getLastPoint() != null) {
 
-                drawCursor(g2d);
-                return;
+                Point point = mouseListener.getLastPoint();
+                g2d.drawLine(point.getX(), point.getY(), mousePos[0], mousePos[1]);
 
             }
-            Point point = mouseListener.getLastPoint();
-            g2d.drawLine(point.getX(), point.getY(), mousePos[0], mousePos[1]);
-            
         } else if (ButtonPanel.getSelected() == 2) {
 
-            if (mouseListener.getLastPoint() == null) {
+            if (mouseListener.getLastPoint() != null) {
 
-                drawCursor(g2d);
-                return;
+                Point point = mouseListener.getLastPoint();
+                int radius = point.distance(new Point(mousePos[0], mousePos[1]));
+                g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
 
             }
-            Point point = mouseListener.getLastPoint();
-            int radius = point.distance(new Point(mousePos[0], mousePos[1]));
-            g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
         }
+
+        // Another blueprint sheets
+        g2d.setPaint(new Color(50, 50, 55));
+        for (int i = 0; i < Main.bluePrint.size(); i++) {
+
+            g2d.setPaint(new Color(50, 50, 55));
+            g2d.fillRect(100 * i, this.getHeight() - 30, 100, 30);
+            g2d.setFont(g2d.getFont().deriveFont(17f));
+            g2d.setPaint(Color.WHITE);
+            g2d.drawString("Sheet " + i, 100 * i + 15, this.getHeight() - 8);
+            
+            // Color decoration
+            if (Main.activeBluePrint == i) {
+
+                g2d.setPaint(new Color(45, 160, 55));
+                g2d.drawLine(100 * i, this.getHeight() - 30, 100 * i, this.getHeight());
+                g2d.drawLine(100 * (i + 1), this.getHeight() - 30, 100 * (i + 1), this.getHeight());
+                g2d.fillRect(100 * i, this.getHeight() - 35, 100, 5);
+            
+            } else {
+                
+                g2d.setPaint(new Color(145, 145, 145));
+                g2d.drawLine(100 * (i + 1), this.getHeight() - 28, 100 * (i + 1), this.getHeight() - 2);
+
+            }
+        }
+
+        // Draw the add button for adding another sheet
+        g2d.setPaint(new Color(50, 50, 55));
+        g2d.fillRect(100 * Main.bluePrint.size() + 3, this.getHeight() - 30, 30, 30);
+        g2d.setPaint(Color.WHITE);
+        g2d.setStroke(new BasicStroke(3));
+        g2d.drawLine(100 * Main.bluePrint.size() + 2, this.getHeight() - 30, 100 * Main.bluePrint.size() + 2, this.getHeight());
+        g2d.setPaint(new Color(200, 200, 200));
+        g2d.drawLine(100 * Main.bluePrint.size() + 10, this.getHeight() - 15, 100 * Main.bluePrint.size() + 26, this.getHeight() - 15);
+        g2d.drawLine(100 * Main.bluePrint.size() + 18, this.getHeight() - 23, 100 * Main.bluePrint.size() + 18, this.getHeight() - 7);
+
         drawCursor(g2d);
+
+        // Mouse position box and values
+        int recalcX = (int) (this.getWidth() - this.getWidth() * .12);
+        int recalcY = this.getHeight() - 40;
+        int[] x = {recalcX + 25, recalcX + 30, recalcX + 38, recalcX + 41, recalcX + 60, recalcX + 60};
+        int[] y = {recalcY + 40, recalcY + 38, recalcY + 30, recalcY + 20, recalcY + 20, recalcY + 40};
+
+        g2d.setPaint(new Color(50, 50, 55));
+        g2d.setStroke(new BasicStroke(1));
+        g2d.drawArc(recalcX, recalcY, 40, 40, 270, 90);
+        g2d.fillArc(recalcX + 40, recalcY, 40, 40, 180, -90);
+        g2d.fillRect(recalcX + 60, recalcY, this.getWidth(), this.getHeight());
+        g2d.fillPolygon(x, y, x.length);
+
+        g2d.setPaint(Color.WHITE);
+        g2d.setFont(getFont().deriveFont(24f));
+        g2d.drawString("X: " + mousePos[0] + (mousePos[0] < 1000 ? "  " : " ") + "Y: " + mousePos[1], recalcX + 60, recalcY + 30);
     }
 
     public void repaint() {

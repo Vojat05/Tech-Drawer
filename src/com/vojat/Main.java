@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -25,12 +26,15 @@ import com.vojat.Panels.ButtonPanel;
 
 public class Main {
 
-    public static BluePrint bluePrint;
+    public static ArrayList<BluePrint> bluePrint = new ArrayList<>();
     public static ButtonPanel buttonPanel;
+    private static Frame frame;
     public static int[] screenSize = new int[2];
     public static HashMap<Integer, Picture> textures = new HashMap<>();
     public static boolean snaptogrid = true;
     public static Color backgroundColor = new Color(50, 50, 55);
+    public static int activeBluePrint = 0;
+    public static Cursor blankCursor;
 
     public static void main(String[] args) {
 
@@ -41,18 +45,16 @@ public class Main {
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
         // Create a new blank cursor.
-        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor((Image) cursorImg, new Point(0, 0), "blank cursor");
+        blankCursor = Toolkit.getDefaultToolkit().createCustomCursor((Image) cursorImg, new Point(0, 0), "blank cursor");
 
         // Create the main frame and add the blueprint, button panel
-        Frame frame = new Frame();
+        frame = new Frame();
         buttonPanel = new ButtonPanel(10, 10, screenSize[0] - 20, 80, backgroundColor);
-        bluePrint = new BluePrint(10, 100, screenSize[0] - 20, screenSize[1] - 110, BluePrint.backColor);
-        bluePrint.setListeners(new MouseListener(bluePrint));
-        bluePrint.setCursor(blankCursor);
+        bluePrint.add(new BluePrint(10, 100, screenSize[0] - 20, screenSize[1] - 110, BluePrint.backColor));
         buttonPanel.setListeners(new MouseListener(buttonPanel));
         frame.add(buttonPanel);
-        frame.add(bluePrint);
-        frame.setListeners(new KeyboardListener(bluePrint, buttonPanel));
+        frame.add(bluePrint.get(0));
+        frame.addKeyListener(new KeyboardListener(bluePrint.get(activeBluePrint)));
 
         // Fill the textures hashmap
         try {
@@ -68,7 +70,7 @@ public class Main {
 
     public static void repaint() {
 
-        bluePrint.repaint();
+        bluePrint.get(activeBluePrint).repaint();
         buttonPanel.repaint();
         
     }
@@ -79,15 +81,15 @@ public class Main {
             String fileExtension = file.getName().substring(file.getName().indexOf('.') + 1);
             
             if (fileExtension.equals("png")) {
-                Export.exportToPNG(file, bluePrint.getGeometryCopy());
+                Export.exportToPNG(file, bluePrint.get(0).getGeometryCopy());
                 return;
             }
 
             FileWriter fw = new FileWriter(file);
-            for (int i = 0; i < bluePrint.geometrySize(); i++) {
+            for (int i = 0; i < bluePrint.get(0).geometrySize(); i++) {
     
                 String write = "";
-                Geometry object = bluePrint.getGeometryAt(i);
+                Geometry object = bluePrint.get(0).getGeometryAt(i);
                 if (object instanceof Line) {
                     
                     Line line = (Line) object;
@@ -113,7 +115,7 @@ public class Main {
 
     public static void load(File file) {
         if (!file.exists()) return;
-        bluePrint.clearGeometry();
+        bluePrint.get(0).clearGeometry();
         try {
             FileReader fr = new FileReader(file);
             String object = "";
@@ -154,7 +156,7 @@ public class Main {
                 i += index + 1;
                 values[j] = (int) Double.parseDouble(value);
             }
-            bluePrint.addLine(new Line(values[0], values[1], values[2], values[3]));
+            bluePrint.get(0).addLine(new Line(values[0], values[1], values[2], values[3]));
 
         } else if (data.charAt(0) == 'C') {
             
@@ -169,7 +171,14 @@ public class Main {
                 i += index + 1;
                 values[j] = (int) Double.parseDouble(value);
             }
-            bluePrint.addCircle(new Circle(values[0], values[1], values[2], (short) values[3], (short) values[4]));
+            bluePrint.get(0).addCircle(new Circle(values[0], values[1], values[2], (short) values[3], (short) values[4]));
         }
+    }
+
+    public static void changeSheet(int sheetNumber) {
+        frame.remove(bluePrint.get(activeBluePrint));
+        frame.add(bluePrint.get(sheetNumber));
+        activeBluePrint = sheetNumber;
+        repaint();
     }
 }

@@ -21,7 +21,7 @@ public class Export {
 
     public static void exportToPNG(File destinationFile, Geometry[] geometry) {
         
-        BluePrint bp = Main.bluePrint;
+        BluePrint bp = Main.bluePrint.get(Main.activeBluePrint);
 
         // Return if no geometry exists
         if (bp.geometrySize() == 0) return;

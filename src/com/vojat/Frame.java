@@ -5,8 +5,6 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.vojat.Listeners.KeyboardListener;
-
 public class Frame extends JFrame {
 
     public int width;
@@ -15,7 +13,6 @@ public class Frame extends JFrame {
     public Color backColor;
 
     public Frame() {
-
         this.title = "Tech Drawer";
         
         setTitle("Tech Drawer");
@@ -55,12 +52,5 @@ public class Frame extends JFrame {
     public JPanel addContentPanel(JPanel panel) {
         this.add(panel);
         return panel;
-    }
-
-    public void setListeners(KeyboardListener kbl) {
-
-        if (kbl == null) return;
-        addKeyListener(kbl);
-        
     }
 }

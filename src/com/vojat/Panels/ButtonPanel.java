@@ -14,7 +14,7 @@ import com.vojat.Listeners.MouseListener;
 
 public class ButtonPanel extends JPanel {
 
-    private static byte selected = 0;
+    public static byte selected = 0;
     
     public ButtonPanel(int x, int y, int width, int height, Color color) {
         setSize(width, height);

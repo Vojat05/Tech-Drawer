@@ -16,19 +16,14 @@ import com.vojat.Panels.SavePanel;
 public class KeyboardListener implements KeyListener {
 
     private BluePrint blueprint;
-    private ButtonPanel bp;
     private boolean ctrl = false, shift = false, alt = false;
 
-    public KeyboardListener(BluePrint bluePrint, ButtonPanel bp) {
-
+    public KeyboardListener(BluePrint bluePrint) {
         this.blueprint = bluePrint;
-        this.bp = bp;
-
     }
 
     @Override
     public void keyPressed(KeyEvent ke) {
-
         // The modifier keys
         int key = ke.getKeyCode();
 
@@ -53,7 +48,6 @@ public class KeyboardListener implements KeyListener {
                 
                 // Removing geometry
                 for (int i = 0; i < blueprint.geometrySize(); i++) {
-
                     Geometry object = blueprint.getGeometryAt(i);
                     
                     // Removing lines
@@ -77,11 +71,24 @@ public class KeyboardListener implements KeyListener {
 
             case KeyEvent.VK_ESCAPE:
                 
-                for (int i = 0; i < blueprint.geometrySize(); i++) blueprint.getGeometryAt(i).select(false);
-                blueprint.repaint();
+                for (int i = 0; i < Main.bluePrint.get(Main.activeBluePrint).geometrySize(); i++) Main.bluePrint.get(Main.activeBluePrint).getGeometryAt(i).select(false);
+                
+                // Check if there is a start point placed
+                if (ButtonPanel.getSelected() != 0) {
+                    if (blueprint.mouseListener.isDrawing()) {
+                    
+                        blueprint.mouseListener.stopDrawing();
+                        break;
+                    
+                    } else ButtonPanel.setSelected((byte) 0);
+                }
+
+                Main.bluePrint.get(Main.activeBluePrint).mouseListener.points.clear();
+                Main.repaint();
                 break;
 
             case KeyEvent.VK_S:
+
                 // Save if control + S
                 if (ctrl) {
                     Frame fileDialog = new Frame(800, 600, "Save", false, new Color(24, 24, 24));
@@ -91,6 +98,8 @@ public class KeyboardListener implements KeyListener {
                 break;
 
             case KeyEvent.VK_L:
+
+                // Load if control + L
                 if (ctrl) {
                     Frame fileDialog = new Frame(800, 600, "Load", false, new Color(24, 24, 24));
                     fileDialog.addContentPanel(new SavePanel(fileDialog, SavePanel.LOAD));
@@ -125,28 +134,7 @@ public class KeyboardListener implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent ke) {
-        int key = ke.getKeyCode();
-
-        switch (key) {
-            case KeyEvent.VK_ESCAPE:
-                if (ButtonPanel.getSelected() != 0) {
-
-                    // Check if there is a start point placed
-                    if (blueprint.mouseListener.isDrawing()) {
-
-                        blueprint.mouseListener.stopDrawing();
-                        break;
-
-                    } else ButtonPanel.setSelected((byte) 0);
-                }
-
-                bp.repaint();
-                break;
-
-            default: break;
-        }
-    }
+    public void keyReleased(KeyEvent ke) {}
 
     @Override
     public void keyTyped(KeyEvent ke) {}
