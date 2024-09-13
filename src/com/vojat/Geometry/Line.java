@@ -14,7 +14,7 @@ public class Line extends Geometry {
 
     }
 
-    public Line(int sx, int sy, int ex, int ey, byte thickness) {
+    public Line(double sx, double sy, double ex, double ey, byte thickness) {
 
         this.start = new Point(sx, sy);
         this.end = new Point(ex, ey);
@@ -40,14 +40,14 @@ public class Line extends Geometry {
 
     public boolean isOnLine(Point point) {
 
-        int x = point.getX();
-        int y = point.getY();
+        double x = point.getX();
+        double y = point.getY();
 
         // If it's outside of the line either up, down, left or right
-        int leftMost = start.getX() < end.getX() ? start.getX() : end.getX();
-        int rightMost = leftMost == start.getX() ? end.getX() : start.getX();
-        int upper = start.getY() < end.getY() ? start.getY() : end.getY();
-        int lower = upper == start.getY() ? end.getY() : start.getY();
+        double leftMost = start.getX() < end.getX() ? start.getX() : end.getX();
+        double rightMost = leftMost == start.getX() ? end.getX() : start.getX();
+        double upper = start.getY() < end.getY() ? start.getY() : end.getY();
+        double lower = upper == start.getY() ? end.getY() : start.getY();
 
         if (x < leftMost || x > rightMost || y < upper || y > lower) return false;
 

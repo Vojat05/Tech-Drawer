@@ -1,26 +1,26 @@
 package com.vojat.Geometry;
 
 public class Point extends Geometry {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private boolean selected = false;
 
-    public Point(int coordx, int coordy) {
+    public Point(double coordx, double coordy) {
 
         this.x = coordx;
         this.y = coordy;
 
     }
 
-    public int getX() { return this.x; }
+    public double getX() { return this.x; }
 
-    public int getY() { return this.y; }
+    public double getY() { return this.y; }
 
     public boolean isSelected() { return this.selected; }
 
     public boolean select(boolean val) { return this.selected = val; }
 
-    public int distance(Point point) { return (int) Math.sqrt((point.x - this.x) * (point.x - this.x) + (point.y - this.y) * (point.y - this.y)); }
+    public double distance(Point point) { return Math.sqrt((point.x - this.x) * (point.x - this.x) + (point.y - this.y) * (point.y - this.y)); }
 
     public boolean equals(Point point) {
 

@@ -242,13 +242,12 @@ public class MouseListener implements MouseInputListener {
     
                 }
             } else if (object instanceof Circle) {
-
                 Circle circle = (Circle) object;
                 Point center = circle.getCenter();
                 double radius = circle.getRadius();
                 Point leftTop;
                 Point rightBot;
-                int x, y;
+                double x, y;
 
                 // Left top
                 if (points.get(0).getX() < points.get(1).getX()) x = points.get(0).getX();
@@ -297,8 +296,8 @@ public class MouseListener implements MouseInputListener {
 
             if (points.size() > 0 && mouseWheelDown) {
 
-                bp.offsetX = (Main.snaptogrid ? snapX(me.getX()) : me.getX()) - points.get(0).getX();
-                bp.offsetY = (Main.snaptogrid ? snapY(me.getY()) : me.getY()) - points.get(0).getY();
+                bp.offsetX = (int) ((Main.snaptogrid ? snapX(me.getX()) : me.getX()) - points.get(0).getX());
+                bp.offsetY = (int) ((Main.snaptogrid ? snapY(me.getY()) : me.getY()) - points.get(0).getY());
             
             }
 

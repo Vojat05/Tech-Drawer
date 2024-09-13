@@ -187,13 +187,13 @@ public class BluePrint extends JPanel {
 
                     g2d.setStroke(new BasicStroke(line.getThickness() + 2));
                     g2d.setPaint(new Color(255, 255, 255, 100));
-                    g2d.drawLine(line.getStart().getX() + offsetX + savedOffsetX, line.getStart().getY() + offsetY + savedOffsetY, line.getEnd().getX() + offsetX + savedOffsetX, line.getEnd().getY() + offsetY + savedOffsetY);
+                    g2d.drawLine((int) (line.getStart().getX() + offsetX + savedOffsetX), (int) (line.getStart().getY() + offsetY + savedOffsetY), (int) (line.getEnd().getX() + offsetX + savedOffsetX), (int) (line.getEnd().getY() + offsetY + savedOffsetY));
 
                 }
 
                 g2d.setPaint(line.isSelected() ? new Color(225, 255, 138) : Color.WHITE);    
                 g2d.setStroke(new BasicStroke(line.getThickness()));
-                g2d.drawLine(line.getStart().getX() + offsetX + savedOffsetX, line.getStart().getY() + offsetY + savedOffsetY, line.getEnd().getX() + offsetX + savedOffsetX, line.getEnd().getY() + offsetY + savedOffsetY);
+                g2d.drawLine((int) (line.getStart().getX() + offsetX + savedOffsetX), (int) (line.getStart().getY() + offsetY + savedOffsetY), (int) (line.getEnd().getX() + offsetX + savedOffsetX), (int) (line.getEnd().getY() + offsetY + savedOffsetY));
             }
 
             // Object is a circle
@@ -217,8 +217,8 @@ public class BluePrint extends JPanel {
         // Draw the line from the last line point to the current mouse position if the line brush is selected
         if (ButtonPanel.getSelected() == 0 && mouseListener.pointsSize() == 1) {
 
-            int mouseX = Main.snaptogrid ? MouseListener.snapX(mouseListener.getLastPoint().getX()) : mouseListener.getLastPoint().getX();
-            int mouseY = Main.snaptogrid ? MouseListener.snapY(mouseListener.getLastPoint().getY()) : mouseListener.getLastPoint().getY();
+            int mouseX = Main.snaptogrid ? MouseListener.snapX((int) mouseListener.getLastPoint().getX()) : (int) mouseListener.getLastPoint().getX();
+            int mouseY = Main.snaptogrid ? MouseListener.snapY((int) mouseListener.getLastPoint().getY()) : (int) mouseListener.getLastPoint().getY();
             g2d.setStroke(new BasicStroke(1));
             
             if (mouseListener.selectionIsContain) {
@@ -242,7 +242,7 @@ public class BluePrint extends JPanel {
 
                 Point point = mouseListener.getLastPoint();
                 g2d.setStroke(new BasicStroke(LineSettingsPanel.thickness));
-                g2d.drawLine(point.getX(), point.getY(), mousePos[0], mousePos[1]);
+                g2d.drawLine((int) point.getX(), (int) point.getY(), mousePos[0], mousePos[1]);
 
             }
         } else if (ButtonPanel.getSelected() == 2) {
@@ -251,9 +251,9 @@ public class BluePrint extends JPanel {
             if (mouseListener.getLastPoint() != null) {
 
                 Point point = mouseListener.getLastPoint();
-                int radius = point.distance(new Point(mousePos[0], mousePos[1]));
+                double radius = point.distance(new Point(mousePos[0], mousePos[1]));
                 g2d.setStroke(new BasicStroke(LineSettingsPanel.thickness));
-                g2d.drawArc(point.getX() - radius, point.getY() - radius, radius * 2, radius * 2, 0, 360);
+                g2d.drawArc((int) (point.getX() - radius), (int) (point.getY() - radius), (int) (radius * 2), (int) (radius * 2), 0, 360);
 
             }
         }

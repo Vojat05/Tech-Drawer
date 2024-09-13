@@ -27,7 +27,7 @@ public class Export {
         if (bp.geometrySize() == 0) return;
 
         BufferedImage outputImg;
-        int left = bp.getWidth(), right = 0, top = bp.getHeight(), bottom = 0;
+        double left = bp.getWidth(), right = 0, top = bp.getHeight(), bottom = 0;
         Geometry geom;
 
         // Get the image size
@@ -72,7 +72,7 @@ public class Export {
         }
 
         // Creating the image itself
-        outputImg = new BufferedImage(right - left + 10, bottom - top + 10, BufferedImage.TYPE_4BYTE_ABGR);
+        outputImg = new BufferedImage((int) (right - left + 10), (int) (bottom - top + 10), BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g2d = outputImg.createGraphics();
 
         // Paint the geometry onto the image
@@ -86,12 +86,12 @@ public class Export {
             if (geom instanceof Line) {
 
                 Line line = (Line) geom;
-                g2d.drawLine(line.getStart().getX() - left + 5, line.getStart().getY() - top + 5, line.getEnd().getX() - left + 5, line.getEnd().getY() - top + 5);
+                g2d.drawLine((int) (line.getStart().getX() - left + 5), (int) (line.getStart().getY() - top + 5), (int) (line.getEnd().getX() - left + 5), (int) (line.getEnd().getY() - top + 5));
 
             } else if (geom instanceof Circle) {
 
                 Circle circle = (Circle) geom;
-                g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius()) - left + 5, (int) (circle.getCenter().getY() - circle.getRadius()) - top + 5, (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getEndAngle());
+                g2d.drawArc((int) (circle.getCenter().getX() - circle.getRadius() - left + 5), (int) (circle.getCenter().getY() - circle.getRadius() - top + 5), (int) (circle.getRadius() * 2), (int) (circle.getRadius() * 2), circle.getStartAngle(), circle.getEndAngle());
 
             }
         }
