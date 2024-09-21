@@ -85,5 +85,13 @@ public class ButtonPanel extends JPanel {
         g2d.fillArc(this.getWidth() - 85, 30, 20, 20, 0, 360);
         g2d.setPaint(Main.backgroundColor);
         g2d.fillArc(this.getWidth() - 80, 35, 10, 10, 0, 360);
+
+        // Drawing the donate button
+        if (Main.donateButton) {
+            g2d.setPaint(new Color(244, 10, 53));
+            g2d.fillRoundRect(this.getWidth() - 200, 20, 100, 40, 10, 10);
+            g2d.setPaint(Color.WHITE);
+            g2d.drawString("Donate", this.getWidth() - 185, 45);
+        }
     }
 }

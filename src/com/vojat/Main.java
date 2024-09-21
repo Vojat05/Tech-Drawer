@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.vojat.DataStructures.JSONEditor;
 import com.vojat.Geometry.Circle;
 import com.vojat.Geometry.Geometry;
 import com.vojat.Geometry.Line;
@@ -37,10 +39,19 @@ public class Main {
     public static Cursor blankCursor;
     public static LogicThread logicThread;
     public static boolean enableLogicThread = false;
+    public static boolean donateButton = true;
 
     public static void main(String[] args) {
-
         System.out.println("Welcome to Tech Drawer !\nProgram for creating technical drawings.");
+
+        // Get the startup config
+        try {
+            JSONEditor je = new JSONEditor("../../Resources/Config.json");
+            donateButton = Boolean.parseBoolean(je.readData("Donate-Button"));
+        } catch (FileNotFoundException fe) {
+            fe.printStackTrace();
+        }
+
         screenSize[0] = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         screenSize[1] = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 70;
 

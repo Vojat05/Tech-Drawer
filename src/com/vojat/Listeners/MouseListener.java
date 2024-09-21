@@ -97,12 +97,18 @@ public class MouseListener implements MouseInputListener {
                 Frame settingsWindow = new Frame(800, 600, "Settings", false, Main.backgroundColor);
                 settingsWindow.addContentPanel(new SettingsPanel(settingsWindow.width, settingsWindow.height, settingsWindow.backColor, settingsWindow));
                 SettingsPanel.isOpen = true;
-            } else if (me.getX() >= 220 && me .getY() <= 265 && me.getY() >= 30 && me.getY() <= 75) {
+
+            } else if (me.getX() >= 220 && me.getX() <= 260 && me .getY() <= 265 && me.getY() >= 30 && me.getY() <= 75) {
 
                 // Open line settings
                 if (SettingsPanel.isOpen) return;
                 Frame lineSettings = new Frame(500, 300, "Line Settings", false, Main.backgroundColor);
                 lineSettings.addContentPanel(new LineSettingsPanel(lineSettings.width, lineSettings.height, lineSettings.backColor, lineSettings));
+
+            } else if (me.getX() >= parent.getWidth() - 200 && me.getX() <= parent.getWidth() - 100 && me.getY() >= 20 && me.getY() <= 50) {
+
+                // Donate button
+                System.out.println("Donate to link: https://buymeacoffee.com/Vojat");
             }
         }
 
