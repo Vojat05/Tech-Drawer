@@ -64,7 +64,7 @@ public class Circle extends Geometry{
 
     public Point[] lineOnCircle(Line line) {
         Point[] points;
-        
+
         // Calculate General equation of the line
         double A = line.getStart().getY() - line.getEnd().getY();
         double B = line.getEnd().getX() - line.getStart().getX();

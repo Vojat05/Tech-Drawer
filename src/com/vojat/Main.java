@@ -35,6 +35,8 @@ public class Main {
     public static Color backgroundColor = new Color(50, 50, 55);
     public static int activeBluePrint = 0;
     public static Cursor blankCursor;
+    public static LogicThread logicThread;
+    public static boolean enableLogicThread = false;
 
     public static void main(String[] args) {
 

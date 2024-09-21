@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import com.vojat.Frame;
+import com.vojat.LogicThread;
 import com.vojat.Main;
 import com.vojat.Geometry.Circle;
 import com.vojat.Geometry.Geometry;
@@ -25,9 +26,7 @@ public class MouseListener implements MouseInputListener {
     private boolean mouseWheelDown = false;
 
     public MouseListener(JPanel bp) {
-
         this.parent = bp;
-
     }
 
     public void stopDrawing() { points.clear(); }
@@ -148,6 +147,11 @@ public class MouseListener implements MouseInputListener {
                         bp.addLine(new Line(points.get(0), end, LineSettingsPanel.thickness));
                         points.clear();
                         points.add(end);
+                        
+                        if (Main.enableLogicThread) {
+                            Main.logicThread = new LogicThread();
+                            Main.logicThread.start();
+                        }
 
                     }else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
                 } else if (ButtonPanel.getSelected() == 2) {
@@ -158,6 +162,11 @@ public class MouseListener implements MouseInputListener {
                         Point end = new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY());
                         bp.addCircle(new Circle(points.get(0), points.get(0).distance(end), (short) 0, (short) 360, LineSettingsPanel.thickness));
                         points.clear();
+
+                        if (Main.enableLogicThread) {
+                            Main.logicThread = new LogicThread();
+                            Main.logicThread.start();
+                        }
 
                     } else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
                 }
@@ -323,5 +332,4 @@ public class MouseListener implements MouseInputListener {
 
     @Override
     public void mouseExited(MouseEvent me) {}
-    
 }

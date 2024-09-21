@@ -114,6 +114,8 @@ public class BluePrint extends JPanel {
 
     public void clearGeometry() { geometry.clear(); }
 
+    public void setGeometry(ArrayList<Geometry> geom) { geometry = geom;}
+
     public Geometry getGeometryAt(int i) {
 
         // Out of bounds

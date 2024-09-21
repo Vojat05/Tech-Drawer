@@ -9,7 +9,6 @@ import com.vojat.Main;
 import com.vojat.Geometry.Circle;
 import com.vojat.Geometry.Geometry;
 import com.vojat.Geometry.Line;
-import com.vojat.Geometry.Point;
 import com.vojat.Panels.BluePrint;
 import com.vojat.Panels.ButtonPanel;
 import com.vojat.Panels.SavePanel;
@@ -79,6 +78,7 @@ public class KeyboardListener implements KeyListener {
                     if (Main.bluePrint.get(Main.activeBluePrint).mouseListener.isDrawing()) {
                     
                         Main.bluePrint.get(Main.activeBluePrint).mouseListener.stopDrawing();
+                        blueprint.repaint();
                         break;
                     
                     } else ButtonPanel.setSelected((byte) 0);
@@ -111,7 +111,7 @@ public class KeyboardListener implements KeyListener {
                 
                 // Remove last element
                 if (blueprint.geometrySize() == 0) break;
-                if (ctrl) blueprint.removeGeometryAt(blueprint.geometrySize() - 1);
+                //if (ctrl) blueprint.removeGeometryAt(blueprint.geometrySize() - 1);
                 blueprint.repaint();
                 break;
 
@@ -124,10 +124,6 @@ public class KeyboardListener implements KeyListener {
                 if (ctrl) blueprint.clearGeometry();
                 blueprint.repaint();
                 break;
-
-            case KeyEvent.VK_G:
-                Point[] ip = ((Circle) blueprint.getGeometryAt(0)).lineOnCircle(((Line) blueprint.getGeometryAt(1)));
-                System.out.println("Number of intersection points: " + ip.length);
 
             default: break;
         }
