@@ -109,6 +109,10 @@ public class KeyboardListener implements KeyListener {
                 if (ctrl) {
                     Frame fileDialog = new Frame(800, 600, "Load", false, new Color(24, 24, 24));
                     fileDialog.addContentPanel(new SavePanel(fileDialog, SavePanel.LOAD));
+                } else {
+                    // Select line tool
+                    ButtonPanel.setSelected((byte) 1);
+                    Main.buttonPanel.repaint();
                 }
                 break;
 

@@ -108,7 +108,7 @@ public class MouseListener implements MouseInputListener {
                 Frame lineSettings = new Frame(500, 300, "Line Settings", false, Main.backgroundColor);
                 lineSettings.addContentPanel(new LineSettingsPanel(lineSettings.width, lineSettings.height, lineSettings.backColor, lineSettings));
 
-            } else if (me.getX() >= parent.getWidth() - 200 && me.getX() <= parent.getWidth() - 100 && me.getY() >= 20 && me.getY() <= 60) {
+            } else if (me.getX() >= parent.getWidth() - 200 && me.getX() <= parent.getWidth() - 100 && me.getY() >= 20 && me.getY() <= 60 && Main.donateButton) {
 
                 // Donate button
                 Main.donatePanel = true;
