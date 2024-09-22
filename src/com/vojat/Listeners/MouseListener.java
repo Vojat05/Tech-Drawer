@@ -1,6 +1,10 @@
 package com.vojat.Listeners;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.awt.Desktop;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -81,7 +85,6 @@ public class MouseListener implements MouseInputListener {
                 
                 // Close button
                 System.exit(0);
-                System.out.println("Shutting down!");
 
             } else if (me.getX() >= 308 && me.getX() <= 346 && me.getY() >= 36 && me.getY() <= 74) {
 
@@ -90,7 +93,7 @@ public class MouseListener implements MouseInputListener {
                 btnp.repaint();
                 return;
 
-            } else if (me.getX() >= btnp.getWidth() - 120 && me.getX() >= btnp.getWidth() - 90 && me.getY() >= 10 && me.getY() <= 70) {
+            } else if (me.getX() >= btnp.getWidth() - 90 && me.getX() <= btnp.getWidth() - 60 && me.getY() >= 10 && me.getY() <= 70) {
 
                 // Open settings
                 if (SettingsPanel.isOpen) return;
@@ -105,10 +108,12 @@ public class MouseListener implements MouseInputListener {
                 Frame lineSettings = new Frame(500, 300, "Line Settings", false, Main.backgroundColor);
                 lineSettings.addContentPanel(new LineSettingsPanel(lineSettings.width, lineSettings.height, lineSettings.backColor, lineSettings));
 
-            } else if (me.getX() >= parent.getWidth() - 200 && me.getX() <= parent.getWidth() - 100 && me.getY() >= 20 && me.getY() <= 50) {
+            } else if (me.getX() >= parent.getWidth() - 200 && me.getX() <= parent.getWidth() - 100 && me.getY() >= 20 && me.getY() <= 60) {
 
                 // Donate button
-                System.out.println("Donate to link: https://buymeacoffee.com/Vojat");
+                Main.donatePanel = true;
+                Main.bluePrint.get(Main.activeBluePrint).repaint();
+
             }
         }
 
@@ -176,6 +181,21 @@ public class MouseListener implements MouseInputListener {
 
                     } else points.add(new Point(Main.snaptogrid ? snapX(me.getX()) : me.getX(), Main.snaptogrid ? snapY(me.getY()) : me.getY()));
                 }
+
+                // Donate
+                if (Main.donatePanel) {
+                    // Buy me a coffee
+                    if (me.getX() >= bp.getWidth() * .5 - 250 && me.getX() <= bp.getWidth() * .5 - 10 && me.getY() >= 50 && me.getY() <= 117) {
+                        try {
+
+                            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) Desktop.getDesktop().browse(new URI("https://buymeacoffee.com/Vojat"));
+                            else Runtime.getRuntime().exec("xdg-open https://buymeacoffee.com/Vojat");
+
+                        } catch (IOException | URISyntaxException e) {
+                            System.out.println("Seems like I can't open your browser, so here's the link instead: https://buymeacoffee.com/Vojat");
+                        }
+                    }
+                }
                 break;
             
             case 2:
@@ -193,7 +213,7 @@ public class MouseListener implements MouseInputListener {
                 return;
         }
         bp.repaint();
-        System.out.println("Mouse pressed, location: " + me.getX() + ", " + me.getY());
+        if (Main.debug) System.out.println("Mouse pressed, location: " + me.getX() + ", " + me.getY());
     }
 
     @Override

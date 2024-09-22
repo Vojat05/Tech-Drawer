@@ -70,6 +70,11 @@ public class KeyboardListener implements KeyListener {
                 break;
 
             case KeyEvent.VK_ESCAPE:
+
+                if (Main.donatePanel) {
+                    Main.donatePanel = false;
+                    break;
+                }
                 
                 for (int i = 0; i < Main.bluePrint.get(Main.activeBluePrint).geometrySize(); i++) Main.bluePrint.get(Main.activeBluePrint).getGeometryAt(i).select(false);
                 
@@ -132,6 +137,9 @@ public class KeyboardListener implements KeyListener {
         ctrl = false;
         alt = false;
         shift = false;
+
+        // Repaint
+        Main.repaint();
     }
 
     @Override

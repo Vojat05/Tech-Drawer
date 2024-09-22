@@ -48,9 +48,9 @@ int main(int argc, char* argv[]) {
             printf("Arguments:\n\t-B      ---  Build the source code and then run it.\n\t?       ---  Show this screen.\n\t<None>  ---  Run the program using the last build, works just if there's some previous build.\n");
             return 0;
         }
-        printf("%s Running Java ...\n", prefix);
+        printf("%s Running Java ...\n\tJAVA Console:\n", prefix);
         errCheck = system("cd src/Build ; java com/vojat/Main ; cd ../../");
-        if (errCheck == 0) printf("%s\nProgram stopped successfully!\n", prefix);
+        if (errCheck == 0) printf("%s Program stopped successfully!\n", prefix);
         else printf("%s Running program failed!\n", prefix);
 
     #endif

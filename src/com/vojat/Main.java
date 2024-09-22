@@ -30,16 +30,19 @@ public class Main {
 
     public static ArrayList<BluePrint> bluePrint = new ArrayList<>();
     public static ButtonPanel buttonPanel;
-    private static Frame frame;
     public static int[] screenSize = new int[2];
     public static HashMap<Integer, Picture> textures = new HashMap<>();
     public static boolean snaptogrid = true;
     public static Color backgroundColor = new Color(50, 50, 55);
     public static int activeBluePrint = 0;
     public static Cursor blankCursor;
+    public static Cursor defaultCursor;
     public static LogicThread logicThread;
     public static boolean enableLogicThread = false;
     public static boolean donateButton = true;
+    public static boolean donatePanel = false;
+    public static boolean debug = false;
+    private static Frame frame;
 
     public static void main(String[] args) {
         System.out.println("Welcome to Tech Drawer !\nProgram for creating technical drawings.");
@@ -48,6 +51,7 @@ public class Main {
         try {
             JSONEditor je = new JSONEditor("../../Resources/Config.json");
             donateButton = Boolean.parseBoolean(je.readData("Donate-Button"));
+            debug = Boolean.parseBoolean(je.readData("Debug"));
         } catch (FileNotFoundException fe) {
             fe.printStackTrace();
         }
@@ -57,7 +61,8 @@ public class Main {
 
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
-        // Create a new blank cursor.
+        // Create a new blank cursor
+        defaultCursor = Cursor.getDefaultCursor();
         blankCursor = Toolkit.getDefaultToolkit().createCustomCursor((Image) cursorImg, new Point(0, 0), "blank cursor");
 
         // Create the main frame and add the blueprint, button panel

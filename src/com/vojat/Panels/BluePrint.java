@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.vojat.Main;
@@ -296,7 +299,35 @@ public class BluePrint extends JPanel {
         g2d.drawLine(100 * Main.bluePrint.size() + 10, this.getHeight() - 15, 100 * Main.bluePrint.size() + 26, this.getHeight() - 15);
         g2d.drawLine(100 * Main.bluePrint.size() + 18, this.getHeight() - 23, 100 * Main.bluePrint.size() + 18, this.getHeight() - 7);
 
-        drawCursor(g2d);
+        // Draw the donate panel
+        if (Main.donatePanel) {
+            g2d.setPaint(new Color(27, 27, 27));
+            g2d.fillRoundRect((int) (this.getWidth() * .5) - 300, 10, 600, 400, 10, 10);
+            try {
+                g2d.drawImage(ImageIO.read(new File("../../Resources/Pictures/bmc-button-smol.png")), (int) (this.getWidth() * .5) - 250, 50, null);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
+            // Reset the cursor
+            if (mousePos[0] >= this.getWidth() * .5 - 300 && mousePos[0] <= this.getWidth() * .5 + 300 && mousePos[1] >= 10 && mousePos[1] <= 410) {
+                this.setCursor(Main.defaultCursor);
+
+                // Buy me a coffee hover
+                if (mousePos[0] >= this.getWidth() * .5 - 250 && mousePos[0] <= this.getWidth() * .5 - 10 && mousePos[1] >= 50 && mousePos[1] <= 120) {
+                    g2d.setPaint(new Color(255, 221, 0));
+                    g2d.drawRoundRect((int) (this.getWidth() * .5) - 255, 45, 250, 77, 25, 25);
+                }
+            }
+            else {
+
+                this.setCursor(Main.blankCursor);
+                drawCursor(g2d);
+
+            }
+        } else drawCursor(g2d);
+        
+        
 
         // Mouse position box and values
         int recalcX = (int) (this.getWidth() - this.getWidth() * .12);
@@ -314,6 +345,7 @@ public class BluePrint extends JPanel {
         g2d.setPaint(Color.WHITE);
         g2d.setFont(getFont().deriveFont(24f));
         g2d.drawString("X: " + mousePos[0] + (mousePos[0] < 1000 ? "  " : " ") + "Y: " + mousePos[1], recalcX + 60, recalcY + 30);
+
     }
 
     public void repaint() {
