@@ -303,6 +303,10 @@ public class BluePrint extends JPanel {
         if (Main.donatePanel) {
             g2d.setPaint(new Color(27, 27, 27));
             g2d.fillRoundRect((int) (this.getWidth() * .5) - 300, 10, 600, 400, 10, 10);
+            g2d.setPaint(Color.WHITE);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2d.drawString("Press ESC to close", (int) (this.getWidth() * .5) - 75, 400);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
             try {
                 g2d.drawImage(ImageIO.read(new File("../../Resources/Pictures/bmc-button-smol.png")), (int) (this.getWidth() * .5) - 250, 50, null);
             } catch (IOException ioe) {
