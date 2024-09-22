@@ -4,7 +4,7 @@ Still a huge work in progress, if you find any bug or other kinds of a faulty be
 
 # Instalation & First start
 1) Install the program as zip from this GitHub repository.<br>
--> <a href="www.github.com/Vojat05/Tech-Drawer">GitHub Vojat05</a><br><br>
+-> <a href="https://github.com/Vojat05/Tech-Drawer">GitHub Vojat05</a><br><br>
 
 2) Extract the .zip file.<br><br>
 
